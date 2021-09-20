@@ -7,7 +7,7 @@
         <b-link class="brand-logo">
           <vuexy-logo />
           <h2 class="brand-text text-primary ml-1">
-            Vuexy
+            CICME
           </h2>
         </b-link>
 
@@ -177,14 +177,14 @@ import {
   BCard, BLink, BCardTitle, BCardText, BForm,
   BButton, BFormInput, BFormGroup, BInputGroup, BInputGroupAppend, BFormCheckbox,
 } from 'bootstrap-vue'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
+import SiteLogo from '@core/layouts/components/Logo.vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 
 export default {
   components: {
-    VuexyLogo,
+    SiteLogo,
     // BSV
     BCard,
     BLink,

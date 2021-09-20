@@ -7,6 +7,8 @@ import app from './app'
 import appConfig from './app-config'
 import verticalMenu from './vertical-menu'
 
+console.log('appConfig ',appConfig);
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({

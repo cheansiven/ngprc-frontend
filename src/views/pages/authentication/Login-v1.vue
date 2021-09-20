@@ -8,7 +8,7 @@
           <vuexy-logo />
 
           <h2 class="brand-text text-primary ml-1">
-            Vuexy
+            CICME
           </h2>
         </b-link>
 
@@ -164,7 +164,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import {
   BButton, BForm, BFormInput, BFormGroup, BCard, BLink, BCardTitle, BCardText, BInputGroup, BInputGroupAppend, BFormCheckbox,
 } from 'bootstrap-vue'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
+import SiteLogo from '@core/layouts/components/Logo.vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
 
@@ -178,7 +178,7 @@ export default {
     BCard,
     BCardTitle,
     BLink,
-    VuexyLogo,
+    SiteLogo,
     BCardText,
     BInputGroup,
     BInputGroupAppend,

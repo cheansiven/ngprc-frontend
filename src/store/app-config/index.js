@@ -3,6 +3,9 @@ import { $themeConfig } from '@themeConfig'
 export default {
   namespaced: true,
   state: {
+    appOptions: {
+      appName: $themeConfig.appName,
+    },
     layout: {
       isRTL: $themeConfig.layout.isRTL,
       skin: localStorage.getItem('vuexy-skin') || $themeConfig.layout.skin,

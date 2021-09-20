@@ -131,7 +131,9 @@ export default {
     const collapseTogglerIconFeather = computed(() => (collapseTogglerIcon.value === 'unpinned' ? 'CircleIcon' : 'DiscIcon'))
 
     // App Name
-    const { appName, appLogoImage } = $themeConfig.app
+    const { appLogoImage /*,appName*/ } = $themeConfig.app
+
+    const appName = "CICME";
 
     return {
       navMenuItems,

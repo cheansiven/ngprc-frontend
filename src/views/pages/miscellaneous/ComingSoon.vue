@@ -4,7 +4,7 @@
     <b-link class="brand-logo">
       <vuexy-logo />
       <h2 class="brand-text text-primary ml-1">
-        Vuexy
+        CICME
       </h2>
     </b-link>
 
@@ -55,12 +55,12 @@
 import {
   BLink, BForm, BFormInput, BButton, BImg,
 } from 'bootstrap-vue'
-import VuexyLogo from '@core/layouts/components/Logo.vue'
+import SiteLogo from '@core/layouts/components/Logo.vue'
 import store from '@/store/index'
 
 export default {
   components: {
-    VuexyLogo,
+    SiteLogo,
     BLink,
     BForm,
     BButton,
