@@ -200,6 +200,14 @@ export default [
     component: () => import('@/views/apps/user/users-edit/UsersEdit.vue'),
   },
 
+  // *===============================================---*
+  // *--------- USER ROLE ---- ---------------------------------------*
+  // *===============================================---*
+  {
+    path: '/apps/users/roles/list',
+    name: 'apps-roles-list',
+    component: () => import('@/views/apps/user/users-list/RolesList.vue'),
+  },
   // Invoice
   {
     path: '/apps/invoice/list',
@@ -220,5 +228,70 @@ export default [
     path: '/apps/invoice/edit/:id',
     name: 'apps-invoice-edit',
     component: () => import('@/views/apps/invoice/invoice-edit/InvoiceEdit.vue'),
+  },
+
+  // *===============================================---*
+  // *--------- CONFERENCE  -----------------------------------*
+  // *===============================================---*
+  {
+    path: '/apps/conference/calendar',
+    name: 'apps-conference-calendar',
+    component: () => import('@/views/apps/conference/calendar/Calendar.vue'),
+  },
+  {
+    path: '/apps/conference/coming-soon',
+    name: 'apps-conference-coming-soon',
+    component: () => import('@/views/apps/conference/ComingSoon.vue'),
+  },
+  {
+    path: '/apps/conference/finished',
+    name: 'apps-conference-finished',
+    component: () => import('@/views/apps/conference/Finished.vue'),
+  },
+  {
+    path: '/apps/conference/top',
+    name: 'apps-conference-top',
+    component: () => import('@/views/apps/conference/TopRank.vue'),
+  },
+  {
+    path: '/apps/conference/top',
+    name: 'apps-conference-top',
+    component: () => import('@/views/apps/conference/TopRank.vue'),
+  },
+  // *===============================================---*
+  // *--------- FORUM  ---------------------------------------*
+  // *===============================================---*
+  {
+    path: '/apps/forum/popular',
+    name: 'apps-forum-popular',
+    component: () => import('@/views/apps/forum/Popular.vue'),
+  },
+  {
+    path: '/apps/forum/early',
+    name: 'apps-forum-early',
+    component: () => import('@/views/apps/forum/Early.vue'),
+  },
+  // *===============================================---*
+  // *--------- PRESENTATION  ---------------------------------*
+  // *===============================================---*
+  {
+    path: '/apps/presentation/pending',
+    name: 'apps-presentation-pending',
+    component: () => import('@/views/apps/presentation/Pending.vue'),
+  },
+  {
+    path: '/apps/presentation/rejected',
+    name: 'apps-presentation-rejected',
+    component: () => import('@/views/apps/presentation/Rejected.vue'),
+  },
+  {
+    path: '/apps/presentation/approved',
+    name: 'apps-presentation-approved',
+    component: () => import('@/views/apps/presentation/Approved.vue'),
+  },
+  {
+    path: '/apps/presentation/finished',
+    name: 'apps-presentation-finished',
+    component: () => import('@/views/apps/presentation/Finished.vue'),
   },
 ]

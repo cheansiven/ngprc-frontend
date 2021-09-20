@@ -4,7 +4,7 @@ export default [
   },
   {
     title: 'Pending Proposal',
-    route: 'apps-email',
+    route: 'apps-presentation-pending',
     icon: 'CheckSquareIcon',
   },
   {
@@ -13,15 +13,15 @@ export default [
     children: [
       {
         title: 'Rejected',
-        route: 'apps-invoice-list',
+        route: 'apps-presentation-rejected',
       },
       {
         title: 'Approved',
-        route: { name: 'apps-invoice-preview', params: { id: 4987 } },
+        route: 'apps-presentation-approved',
       },
       {
         title: 'Finished',
-        route: { name: 'apps-invoice-edit', params: { id: 4987 } },
+        route: 'apps-presentation-finished',
       },
     ],
   },
@@ -33,12 +33,12 @@ export default [
   },
   {
     title: 'Calendar',
-    route: 'apps-calendar',
+    route: 'apps-conference-calendar',
     icon: 'CalendarIcon',
   },
   {
     title: 'Coming soon',
-    route: 'apps-calendar',
+    route: 'apps-conference-coming-soon',
     icon: 'CalendarIcon',
   },
   {
@@ -47,11 +47,11 @@ export default [
     children: [
       {
         title: 'Early Finished',
-        route: { name: 'apps-invoice-preview', params: { id: 4987 } },
+        route: { name: 'apps-conference-finished' },
       },
       {
         title: 'Top rank',
-        route: { name: 'apps-invoice-edit', params: { id: 4987 } },
+        route: { name: 'apps-conference-top' },
       },
     ],
   },
@@ -62,51 +62,27 @@ export default [
     header: 'Forum',
   },
   {
-    title: 'Topic',
-    route: 'apps-email',
-    icon: 'CheckSquareIcon',
+    title: 'Popular',
+    route: 'apps-forum-popular',
   },
   {
-    title: 'Forum - History',
-    icon: 'CheckSquareIcon',
-    children: [
-      {
-        title: 'Popular',
-        route: 'apps-invoice-list',
-      },
-      {
-        title: 'Top rank',
-        route: { name: 'apps-invoice-preview', params: { id: 4987 } },
-      },
-    ],
+    title: 'Early',
+    route: 'apps-forum-early',
   },
   // / /
   /// /
   /// /
   {
-    header: 'Documents',
-  },
-  {
-    title: 'Video',
-    route: 'apps-email',
-    icon: 'CheckSquareIcon',
-  },
-  {
-    title: 'Attachments',
-    route: 'apps-email',
-    icon: 'CheckSquareIcon',
-  },
-  {
     header: 'User Management',
   },
   {
     title: 'User',
-    route: 'apps-calendar',
+    route: 'apps-users-list',
     icon: 'CalendarIcon',
   },
   {
     title: 'Role',
-    route: 'apps-calendar',
+    route: 'apps-roles-list',
     icon: 'CalendarIcon',
   },
 ]

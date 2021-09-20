@@ -6,7 +6,7 @@
       <b-card class="mb-0">
         <b-link class="brand-logo">
           <!-- logo -->
-          <vuexy-logo />
+          <site-logo />
 
           <h2 class="brand-text text-primary ml-1">
             CICME
