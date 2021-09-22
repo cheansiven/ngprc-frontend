@@ -40,14 +40,13 @@ export default function userCalendar() {
   }
 
   // ------------------------------------------------
-  // event
+  // conference
   // ------------------------------------------------
-  const blankEvent = {
-    title: '',
+  const blankConference = {
+    subject: '',
     start: '',
     end: '',
-    allDay: false,
-    url: '',
+    status: 'Pending',
     extendedProps: {
       calendar: '',
       guests: [],
@@ -55,9 +54,9 @@ export default function userCalendar() {
       description: '',
     },
   }
-  const event = ref(JSON.parse(JSON.stringify(blankEvent)))
-  const clearEventData = () => {
-    event.value = JSON.parse(JSON.stringify(blankEvent))
+  const conference = ref(JSON.parse(JSON.stringify(blankConference)))
+  const clearConferenceData = () => {
+    conference.value = JSON.parse(JSON.stringify(blankConference))
   }
 
   // *===========================================================================---*
@@ -66,81 +65,81 @@ export default function userCalendar() {
   // *===========================================================================---*
 
   // ------------------------------------------------
-  // (UI) addEventInCalendar
-  // ? This is useless because this just add event in calendar and not in our data
-  // * If we try to call it on new event then callback & try to toggle from calendar we get two events => One from UI and one from data
+  // (UI) addConferenceInCalendar
+  // ? This is useless because this just add conference in calendar and not in our data
+  // * If we try to call it on new conference then callback & try to toggle from calendar we get two conferences => One from UI and one from data
   // ------------------------------------------------
-  // const addEventInCalendar = eventData => {
+  // const addConferenceInCalendar = conferenceData => {
   //   toast({
   //     component: ToastificationContent,
   //     position: 'bottom-right',
   //     props: {
-  //       title: 'Event Added',
+  //       title: 'Conference Added',
   //       icon: 'CheckIcon',
   //       variant: 'success',
   //     },
   //   })
-  //   calendarApi.addEvent(eventData)
+  //   calendarApi.addConference(conferenceData)
   // }
 
   // ------------------------------------------------
-  // (UI) updateEventInCalendar
+  // (UI) updateConferenceInCalendar
   // ------------------------------------------------
-  const updateEventInCalendar = (updatedEventData, propsToUpdate, extendedPropsToUpdate) => {
+  const updateConferenceInCalendar = (updatedConferenceData, propsToUpdate, extendedPropsToUpdate) => {
     toast({
       component: ToastificationContent,
       props: {
-        title: 'Event Updated',
+        title: 'Conference Updated',
         icon: 'CheckIcon',
         variant: 'success',
       },
     })
 
-    const existingEvent = calendarApi.getEventById(updatedEventData.id)
+    const existingConference = calendarApi.getConferenceById(updatedConferenceData.id)
 
-    // --- Set event properties except date related ----- //
-    // ? Docs: https://fullcalendar.io/docs/Event-setProp
+    // --- Set conference properties except date related ----- //
+    // ? Docs: https://fullcalendar.io/docs/Conference-setProp
     // dateRelatedProps => ['start', 'end', 'allDay']
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < propsToUpdate.length; index++) {
       const propName = propsToUpdate[index]
-      existingEvent.setProp(propName, updatedEventData[propName])
+      existingConference.setProp(propName, updatedConferenceData[propName])
     }
 
     // --- Set date related props ----- //
-    // ? Docs: https://fullcalendar.io/docs/Event-setDates
-    existingEvent.setDates(updatedEventData.start, updatedEventData.end, { allDay: updatedEventData.allDay })
+    // ? Docs: https://fullcalendar.io/docs/Conference-setDates
+    existingConference.setDates(updatedConferenceData.start, updatedConferenceData.end, { allDay: updatedConferenceData.allDay })
 
-    // --- Set event's extendedProps ----- //
-    // ? Docs: https://fullcalendar.io/docs/Event-setExtendedProp
+    // --- Set conference's extendedProps ----- //
+    // ? Docs: https://fullcalendar.io/docs/Conference-setExtendedProp
     // eslint-disable-next-line no-plusplus
     for (let index = 0; index < extendedPropsToUpdate.length; index++) {
       const propName = extendedPropsToUpdate[index]
-      existingEvent.setExtendedProp(propName, updatedEventData.extendedProps[propName])
+      existingConference.setExtendedProp(propName, updatedConferenceData.extendedProps[propName])
     }
   }
 
   // ------------------------------------------------
-  // (UI) removeEventInCalendar
+  // (UI) removeConferenceInCalendar
   // ------------------------------------------------
-  const removeEventInCalendar = eventId => {
+  const removeConferenceInCalendar = conferenceId => {
     toast({
       component: ToastificationContent,
       props: {
-        title: 'Event Removed',
+        title: 'Conference Removed',
         icon: 'TrashIcon',
         variant: 'danger',
       },
     })
-    calendarApi.getEventById(eventId).remove()
+    calendarApi.getConferenceById(conferenceId).remove()
   }
 
   // ------------------------------------------------
-  // grabEventDataFromEventApi
-  // ? It will return just event data from fullCalendar's EventApi which is not required for event mutations and other tasks
+  // grabConferenceDataFromConferenceApi
+  // ? It will return just conference data from fullCalendar's ConferenceApi which is not required for conference mutations and other tasks
   // ! You need to update below function as per your extendedProps
   // ------------------------------------------------
-  const grabEventDataFromEventApi = eventApi => {
+  const grabConferenceDataFromConferenceApi = conferenceApi => {
     const {
       id,
       title,
@@ -149,7 +148,7 @@ export default function userCalendar() {
       // eslint-disable-next-line object-curly-newline
       extendedProps: { calendar, guests, location, description },
       allDay,
-    } = eventApi
+    } = conferenceApi
 
     return {
       id,
@@ -167,44 +166,44 @@ export default function userCalendar() {
   }
 
   // ------------------------------------------------
-  // addEvent
+  // addConference
   // ------------------------------------------------
-  const addEvent = eventData => {
-    store.dispatch('calendar/addEvent', { event: eventData }).then(() => {
+  const addConference = conferenceData => {
+    store.dispatch('calendar/addConference', { conference: conferenceData }).then(() => {
       // eslint-disable-next-line no-use-before-define
-      refetchEvents()
+      refetchConferences()
     })
   }
 
   // ------------------------------------------------
-  // updateEvent
+  // updateConference
   // ------------------------------------------------
-  const updateEvent = eventData => {
-    store.dispatch('calendar/updateEvent', { event: eventData }).then(response => {
-      const updatedEvent = response.data.event
+  const updateConference = conferenceData => {
+    store.dispatch('calendar/updateConference', { conference: conferenceData }).then(response => {
+      const updatedConference = response.data.conference
 
       const propsToUpdate = ['id', 'title', 'url']
       const extendedPropsToUpdate = ['calendar', 'guests', 'location', 'description']
 
-      updateEventInCalendar(updatedEvent, propsToUpdate, extendedPropsToUpdate)
+      updateConferenceInCalendar(updatedConference, propsToUpdate, extendedPropsToUpdate)
     })
   }
 
   // ------------------------------------------------
-  // removeEvent
+  // removeConference
   // ------------------------------------------------
-  const removeEvent = () => {
-    const eventId = event.value.id
-    store.dispatch('calendar/removeEvent', { id: eventId }).then(() => {
-      removeEventInCalendar(eventId)
+  const removeConference = () => {
+    const conferenceId = conference.value.id
+    store.dispatch('calendar/removeConference', { id: conferenceId }).then(() => {
+      removeConferenceInCalendar(conferenceId)
     })
   }
 
   // ------------------------------------------------
-  // refetchEvents
+  // refetchConferences
   // ------------------------------------------------
-  const refetchEvents = () => {
-    calendarApi.refetchEvents()
+  const refetchConferences = () => {
+    calendarApi.refetchConferences()
   }
 
   // ------------------------------------------------
@@ -213,20 +212,20 @@ export default function userCalendar() {
   const selectedCalendars = computed(() => store.state.calendar.selectedCalendars)
 
   watch(selectedCalendars, () => {
-    refetchEvents()
+    refetchConferences()
   })
 
   // --------------------------------------------------------------------------------------------------
-  // AXIOS: fetchEvents
-  // * This will be called by fullCalendar to fetch events. Also this can be used to refetch events.
+  // AXIOS: fetchConferences
+  // * This will be called by fullCalendar to fetch conferences. Also this can be used to refetch conferences.
   // --------------------------------------------------------------------------------------------------
-  const fetchEvents = (info, successCallback) => {
+  const fetchConferences = (info, successCallback) => {
     // If there's no info => Don't make useless API call
     if (!info) return
 
-    // Fetch Events from API endpoint
+    // Fetch Conferences from API endpoint
     store
-      .dispatch('calendar/fetchEvents', {
+      .dispatch('calendar/fetchConferences', {
         calendars: selectedCalendars.value,
       })
       .then(response => {
@@ -236,7 +235,7 @@ export default function userCalendar() {
         toast({
           component: ToastificationContent,
           props: {
-            title: 'Error fetching calendar events',
+            title: 'Error fetching calendar conferences',
             icon: 'AlertTriangleIcon',
             variant: 'danger',
           },
@@ -255,31 +254,31 @@ export default function userCalendar() {
       start: 'sidebarToggle, prev,next, title',
       end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth',
     },
-    events: fetchEvents,
+    conferences: fetchConferences,
 
     /*
-      Enable dragging and resizing event
+      Enable dragging and resizing conference
       ? Docs: https://fullcalendar.io/docs/editable
     */
     editable: true,
 
     /*
-      Enable resizing event from start
-      ? Docs: https://fullcalendar.io/docs/eventResizableFromStart
+      Enable resizing conference from start
+      ? Docs: https://fullcalendar.io/docs/conferenceResizableFromStart
     */
-    eventResizableFromStart: true,
+    conferenceResizableFromStart: true,
 
     /*
-      Automatically scroll the scroll-containers during event drag-and-drop and date selecting
+      Automatically scroll the scroll-containers during conference drag-and-drop and date selecting
       ? Docs: https://fullcalendar.io/docs/dragScroll
     */
     dragScroll: true,
 
     /*
-      Max number of events within a given day
-      ? Docs: https://fullcalendar.io/docs/dayMaxEvents
+      Max number of conferences within a given day
+      ? Docs: https://fullcalendar.io/docs/dayMaxConferences
     */
-    dayMaxEvents: 2,
+    dayMaxConferences: 2,
 
     /*
       Determines if day names and week names are clickable
@@ -287,22 +286,22 @@ export default function userCalendar() {
     */
     navLinks: true,
 
-    eventClassNames({ event: calendarEvent }) {
+    conferenceClassNames({ conference: calendarConference }) {
       // eslint-disable-next-line no-underscore-dangle
-      const colorName = calendarsColor[calendarEvent._def.extendedProps.calendar]
+      const colorName = calendarsColor[calendarConference._def.extendedProps.calendar]
 
       return [
         // Background Color
         `bg-light-${colorName}`,
       ]
     },
-    eventClick({ event: clickedEvent }) {
+    conferenceClick({ conference: clickedConference }) {
       // * Only grab required field otherwise it goes in infinity loop
       // ! Always grab all fields rendered by form (even if it get `undefined`) otherwise due to Vue3/Composition API you might get: "object is not extensible"
-      event.value = grabEventDataFromEventApi(clickedEvent)
+      conference.value = grabConferenceDataFromConferenceApi(clickedConference)
 
       // eslint-disable-next-line no-use-before-define
-      isEventHandlerSidebarActive.value = true
+      isConferenceHandlerSidebarActive.value = true
     },
 
     customButtons: {
@@ -321,29 +320,29 @@ export default function userCalendar() {
         ! Vue3 Change
         Using Vue.set isn't working for now so we will try to check reactivity in Vue 3 as it can handle this automatically
         ```
-        event.value.start = info.date
+        conference.value.start = info.date
         ```
       */
-      event.value = JSON.parse(JSON.stringify(Object.assign(event.value, { start: info.date })))
+      conference.value = JSON.parse(JSON.stringify(Object.assign(conference.value, { start: info.date })))
       // eslint-disable-next-line no-use-before-define
-      isEventHandlerSidebarActive.value = true
+      isConferenceHandlerSidebarActive.value = true
     },
 
     /*
-      Handle event drop (Also include dragged event)
-      ? Docs: https://fullcalendar.io/docs/eventDrop
-      ? We can use `eventDragStop` but it doesn't return updated event so we have to use `eventDrop` which returns updated event
+      Handle conference drop (Also include dragged conference)
+      ? Docs: https://fullcalendar.io/docs/conferenceDrop
+      ? We can use `conferenceDragStop` but it doesn't return updated conference so we have to use `conferenceDrop` which returns updated conference
     */
-    eventDrop({ event: droppedEvent }) {
-      updateEvent(grabEventDataFromEventApi(droppedEvent))
+    conferenceDrop({ conference: droppedConference }) {
+      updateConference(grabConferenceDataFromConferenceApi(droppedConference))
     },
 
     /*
-      Handle event resize
-      ? Docs: https://fullcalendar.io/docs/eventResize
+      Handle conference resize
+      ? Docs: https://fullcalendar.io/docs/conferenceResize
     */
-    eventResize({ event: resizedEvent }) {
-      updateEvent(grabEventDataFromEventApi(resizedEvent))
+    conferenceResize({ conference: resizedConference }) {
+      updateConference(grabConferenceDataFromConferenceApi(resizedConference))
     },
 
     // Get direction from app state (store)
@@ -357,7 +356,7 @@ export default function userCalendar() {
   // *--------- UI ---------------------------------------*
   // *===============================================---*
 
-  const isEventHandlerSidebarActive = ref(false)
+  const isConferenceHandlerSidebarActive = ref(false)
 
   const isCalendarOverlaySidebarActive = ref(false)
 
@@ -365,15 +364,15 @@ export default function userCalendar() {
     refCalendar,
     isCalendarOverlaySidebarActive,
     calendarOptions,
-    event,
-    clearEventData,
-    addEvent,
-    updateEvent,
-    removeEvent,
-    refetchEvents,
-    fetchEvents,
+    conference,
+    clearConferenceData,
+    addConference,
+    updateConference,
+    removeConference,
+    refetchConferences,
+    fetchConferences,
 
     // ----- UI ----- //
-    isEventHandlerSidebarActive,
+    isConferenceHandlerSidebarActive,
   }
 }

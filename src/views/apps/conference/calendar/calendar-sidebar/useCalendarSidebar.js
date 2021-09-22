@@ -23,7 +23,7 @@ export default function useCalendarSidebar() {
   // ------------------------------------------------
   const checkAll = computed({
     /*
-      GET: Return boolean `true` => if length of options matches length of selected filters => Length matches when all events are selected
+      GET: Return boolean `true` => if length of options matches length of selected filters => Length matches when all conferences are selected
       SET: If value is `true` => then add all available options in selected filters => Select All
            Else if => all filters are selected (by checking length of both array) => Empty Selected array  => Deselect All
     */

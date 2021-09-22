@@ -6,7 +6,7 @@
         class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column"
         :class="{'show': isCalendarOverlaySidebarActive}"
       >
-        <calendar-sidebar :is-event-handler-sidebar-active.sync="isEventHandlerSidebarActive" />
+        <calendar-sidebar :is-conference-handler-sidebar-active.sync="isConferenceHandlerSidebarActive" />
       </div>
 
       <!-- Calendar -->
@@ -28,13 +28,13 @@
         :class="{'show': isCalendarOverlaySidebarActive}"
         @click="isCalendarOverlaySidebarActive = false"
       />
-      <calendar-event-handler
-        v-model="isEventHandlerSidebarActive"
-        :event="event"
-        :clear-event-data="clearEventData"
-        @remove-event="removeEvent"
-        @add-event="addEvent"
-        @update-event="updateEvent"
+      <calendar-conference-handler
+        v-model="isConferenceHandlerSidebarActive"
+        :conference="conference"
+        :clear-conference-data="clearConferenceData"
+        @remove-conference="removeConference"
+        @add-conference="addConference"
+        @update-conference="updateConference"
       />
     </div>
   </div>
@@ -46,14 +46,14 @@ import { onUnmounted } from '@vue/composition-api'
 import store from '@/store'
 import calendarStoreModule from './calendarStoreModule'
 import CalendarSidebar from './calendar-sidebar/CalendarSidebar.vue'
-import CalendarEventHandler from './calendar-event-handler/CalendarEventHandler.vue'
+import CalendarConferenceHandler from './calendar-conference-handler/CalendaConferenceHandler.vue'
 import useCalendar from './useCalendar'
 
 export default {
   components: {
     FullCalendar, // make the <FullCalendar> tag available
     CalendarSidebar,
-    CalendarEventHandler,
+    CalendarConferenceHandler,
   },
   setup() {
     const CALENDAR_APP_STORE_MODULE_NAME = 'calendar'
@@ -69,34 +69,34 @@ export default {
     const {
       refCalendar,
       isCalendarOverlaySidebarActive,
-      event,
-      clearEventData,
-      addEvent,
-      updateEvent,
-      removeEvent,
-      fetchEvents,
-      refetchEvents,
+      conference,
+      clearConferenceData,
+      addConference,
+      updateConference,
+      removeConference,
+      fetchConferences,
+      refetchConferences,
       calendarOptions,
 
       // ----- UI ----- //
-      isEventHandlerSidebarActive,
+      isConferenceHandlerSidebarActive,
     } = useCalendar()
 
-    fetchEvents()
+    fetchConferences()
 
     return {
       refCalendar,
       isCalendarOverlaySidebarActive,
-      event,
-      clearEventData,
-      addEvent,
-      updateEvent,
-      removeEvent,
-      refetchEvents,
+      conference,
+      clearConferenceData,
+      addConference,
+      updateConference,
+      removeConference,
+      refetchConferences,
       calendarOptions,
 
       // ----- UI ----- //
-      isEventHandlerSidebarActive,
+      isConferenceHandlerSidebarActive,
     }
   },
 }

@@ -1,7 +1,7 @@
 <template>
-  <b-card-code title="Column Search Table">
+  <b-card-code :title="$props.title">
 
-    <!-- input search -->
+    <!-- search input -->
     <div class="custom-search d-flex justify-content-end">
       <b-form-group>
         <div class="d-flex align-items-center">
@@ -24,6 +24,15 @@
       :search-options="{
         enabled: true,
         externalQuery: searchTerm }"
+      :select-options="{
+        enabled: true,
+        selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+        selectionInfoClass: 'custom-class',
+        selectionText: 'rows selected',
+        clearSelectionText: 'clear',
+        disableSelectInfo: true, // disable the select info panel on top
+        selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+      }"
       :pagination-options="{
         enabled: true,
         perPage:pageLength
@@ -34,17 +43,29 @@
         slot-scope="props"
       >
 
-        <!-- Column: Name -->
-        <div
-          v-if="props.column.field === 'fullName'"
+        <!-- Column: Subject -->
+        <span
+          v-if="props.column.field === 'subject'"
           class="text-nowrap"
         >
-          <b-avatar
-            :src="props.row.avatar"
-            class="mx-1"
-          />
-          <span class="text-nowrap">{{ props.row.fullName }}</span>
-        </div>
+          <span class="text-nowrap">{{ props.row.subject }}</span>
+        </span>
+
+        <!-- Column: Start -->
+        <span
+            v-if="props.column.field === 'start'"
+            class="text-nowrap"
+        >
+          <span class="text-nowrap">{{ props.row.start }}</span>
+        </span>
+
+        <!-- Column: Start -->
+        <span
+            v-if="props.column.field === 'end'"
+            class="text-nowrap"
+        >
+          <span class="text-nowrap">{{ props.row.end }}</span>
+        </span>
 
         <!-- Column: Status -->
         <span v-else-if="props.column.field === 'status'">
@@ -99,7 +120,7 @@
       >
         <div class="d-flex justify-content-between flex-wrap">
           <div class="d-flex align-items-center mb-0 mt-1">
-            <span class="text-nowrap">
+            <span class="text-nowrap ">
               Showing 1 to
             </span>
             <b-form-select
@@ -108,7 +129,7 @@
               class="mx-1"
               @input="(value)=>props.perPageChanged({currentPerPage:value})"
             />
-            <span class="text-nowrap "> of {{ props.total }} entries </span>
+            <span class="text-nowrap"> of {{ props.total }} entries </span>
           </div>
           <div>
             <b-pagination
@@ -142,7 +163,7 @@
     </vue-good-table>
 
     <template #code>
-      {{ codeColumnSearch }}
+      {{ codeBasic }}
     </template>
   </b-card-code>
 </template>
@@ -150,17 +171,21 @@
 <script>
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-  BAvatar, BBadge, BPagination, BFormGroup, BFormInput, BFormSelect, BDropdown, BDropdownItem,
+  BBadge, BPagination, BFormGroup, BFormInput, BFormSelect, BDropdown, BDropdownItem,
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import store from '@/store/index'
-import { codeColumnSearch } from './code'
+import { codeBasic } from './code'
 
 export default {
+  props: {
+    title: {
+      default: 'Table Title',
+    },
+  },
   components: {
     BCardCode,
     VueGoodTable,
-    BAvatar,
     BBadge,
     BPagination,
     BFormGroup,
@@ -173,47 +198,23 @@ export default {
     return {
       pageLength: 3,
       dir: false,
-      codeColumnSearch,
+      codeBasic,
       columns: [
         {
-          label: 'Name',
-          field: 'fullName',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Name',
-          },
+          label: 'Subject',
+          field: 'subject',
         },
         {
-          label: 'Email',
-          field: 'email',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Email',
-          },
+          label: 'Start',
+          field: 'start',
         },
         {
-          label: 'Date',
-          field: 'startDate',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Date',
-          },
-        },
-        {
-          label: 'Salary',
-          field: 'salary',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Salary',
-          },
+          label: 'End',
+          field: 'end',
         },
         {
           label: 'Status',
           field: 'status',
-          filterOptions: {
-            enabled: true,
-            placeholder: 'Search Status',
-          },
         },
         {
           label: 'Action',
@@ -222,17 +223,28 @@ export default {
       ],
       rows: [],
       searchTerm: '',
+      status: [{
+        1: 'Pending',
+        2: 'Approved',
+        3: 'Resigned',
+        4: 'Finished',
+      },
+      {
+        1: 'light-warning',
+        2: 'light-primary',
+        3: 'light-danger',
+        4: 'light-success',
+      }],
     }
   },
   computed: {
     statusVariant() {
       const statusColor = {
         /* eslint-disable key-spacing */
-        Current      : 'light-primary',
-        Professional : 'light-success',
+        Pending      : 'light-warning',
+        Approved     : 'light-primary',
         Rejected     : 'light-danger',
-        Resigned     : 'light-warning',
-        Applied      : 'light-info',
+        Finished     : 'light-success',
         /* eslint-enable key-spacing */
       }
 
@@ -250,8 +262,8 @@ export default {
     },
   },
   created() {
-    this.$http.get('/good-table/basic')
-      .then(res => { this.rows = res.data })
+    this.$http.get('/conference-table/basic')
+      .then(res => { this.rows = res.data; console.log('res.data ', res.data) })
   },
 }
 </script>

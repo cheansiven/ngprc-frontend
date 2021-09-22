@@ -1,5 +1,5 @@
 <template>
-  <ConferenceTable />
+  <ConferenceTable title="Top Rank" />
 </template>
 <script>
 import ConferenceTable from './conference-table/ConferenceTable.vue'

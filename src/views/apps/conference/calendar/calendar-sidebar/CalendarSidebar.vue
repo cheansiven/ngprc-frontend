@@ -3,11 +3,11 @@
     <div class="p-2">
       <b-button
         v-ripple.400="'rgba(255, 255, 255, 0.15)'"
-        aria-controls="sidebar-add-new-event"
-        :aria-expanded="String(isEventHandlerSidebarActive)"
+        aria-controls="sidebar-add-new-conference"
+        :aria-expanded="String(isConferenceHandlerSidebarActive)"
         variant="primary"
         block
-        @click="$emit('update:isEventHandlerSidebarActive', true)"
+        @click="$emit('update:isConferenceHandlerSidebarActive', true)"
       >
         Add Conference
       </b-button>
@@ -24,13 +24,13 @@
         <b-form-group>
           <b-form-checkbox-group
             v-model="selectedCalendars"
-            name="event-filter"
+            name="conference-filter"
             stacked
           >
             <b-form-checkbox
               v-for="item in calendarOptions"
               :key="item.label"
-              name="event-filter"
+              name="conference-filter"
               :value="item.label"
               class="mb-1"
               :class="`custom-control-${item.color}`"
@@ -64,7 +64,7 @@ export default {
     BFormCheckboxGroup,
   },
   props: {
-    isEventHandlerSidebarActive: {
+    isConferenceHandlerSidebarActive: {
       type: Boolean,
       require: true,
     },

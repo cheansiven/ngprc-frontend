@@ -7,6 +7,7 @@ import './jwt'
 
 // Table
 import './data/extensions/good-table'
+import './data/apps/conferences'
 import './data/extensions/auto-suggest'
 import './data/card/card-statistics'
 import './data/card/card-analytics'

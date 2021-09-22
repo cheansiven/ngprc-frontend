@@ -34,10 +34,10 @@ export default {
     },
   },
   actions: {
-    fetchEvents(ctx, { calendars }) {
+    fetchConferences(ctx, { calendars }) {
       return new Promise((resolve, reject) => {
         axios
-          .get('/apps/calendar/events', {
+          .get('/apps/calendar/conferences', {
             params: {
               calendars: calendars.join(','),
             },
@@ -46,26 +46,26 @@ export default {
           .catch(error => reject(error))
       })
     },
-    addEvent(ctx, { event }) {
+    addConference(ctx, { conference }) {
       return new Promise((resolve, reject) => {
         axios
-          .post('/apps/calendar/events', { event })
+          .post('/apps/calendar/conferences', { conference })
           .then(response => resolve(response))
           .catch(error => reject(error))
       })
     },
-    updateEvent(ctx, { event }) {
+    updateConference(ctx, { conference }) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`/apps/calendar/events/${event.id}`, { event })
+          .post(`/apps/calendar/conferences/${conference.id}`, { conference })
           .then(response => resolve(response))
           .catch(error => reject(error))
       })
     },
-    removeEvent(ctx, { id }) {
+    removeConference(ctx, { id }) {
       return new Promise((resolve, reject) => {
         axios
-          .delete(`/apps/calendar/events/${id}`)
+          .delete(`/apps/calendar/conferences/${id}`)
           .then(response => resolve(response))
           .catch(error => reject(error))
       })

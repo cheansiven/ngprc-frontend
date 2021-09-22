@@ -1,24 +1,24 @@
 import { ref, computed, watch } from '@vue/composition-api'
 import store from '@/store'
 
-export default function useCalendarEventHandler(props, clearForm, emit) {
+export default function useCalendarConferenceHandler(props, clearForm, emit) {
   // ------------------------------------------------
-  // eventLocal
+  // conferenceLocal
   // ------------------------------------------------
-  const eventLocal = ref(JSON.parse(JSON.stringify(props.event.value)))
-  const resetEventLocal = () => {
-    eventLocal.value = JSON.parse(JSON.stringify(props.event.value))
+  const conferenceLocal = ref(JSON.parse(JSON.stringify(props.conference.value)))
+  const resetConferenceLocal = () => {
+    conferenceLocal.value = JSON.parse(JSON.stringify(props.conference.value))
   }
-  watch(props.event, () => {
-    resetEventLocal()
+  watch(props.conference, () => {
+    resetConferenceLocal()
   })
 
   // ------------------------------------------------
-  // isEventHandlerSidebarActive
+  // isConferenceHandlerSidebarActive
   // * Clear form if sidebar is closed
   // ------------------------------------------------
-  watch(props.isEventHandlerSidebarActive, val => {
-    // ? Don't reset event till transition is finished
+  watch(props.isConferenceHandlerSidebarActive, val => {
+    // ? Don't reset conference till transition is finished
     if (!val) {
       setTimeout(() => {
         clearForm.value()
@@ -31,15 +31,15 @@ export default function useCalendarEventHandler(props, clearForm, emit) {
   const calendarOptions = computed(() => store.state.calendar.calendarOptions)
 
   const onSubmit = () => {
-    const eventData = JSON.parse(JSON.stringify(eventLocal))
+    const conferenceData = JSON.parse(JSON.stringify(conferenceLocal))
 
-    // * If event has id => Edit Event
-    // Emit event for add/update event
-    if (props.event.value.id) emit('update-event', eventData.value)
-    else emit('add-event', eventData.value)
+    // * If conference has id => Edit Conference
+    // Emit conference for add/update conference
+    if (props.conference.value.id) emit('update-conference', conferenceData.value)
+    else emit('add-conference', conferenceData.value)
 
     // Close sidebar
-    emit('update:is-event-handler-sidebar-active', false)
+    emit('update:is-conference-handler-sidebar-active', false)
   }
 
   // *===============================================---*
@@ -62,8 +62,8 @@ export default function useCalendarEventHandler(props, clearForm, emit) {
   /* eslint-enable global-require */
 
   return {
-    eventLocal,
-    resetEventLocal,
+    conferenceLocal,
+    resetConferenceLocal,
     calendarOptions,
 
     // UI
