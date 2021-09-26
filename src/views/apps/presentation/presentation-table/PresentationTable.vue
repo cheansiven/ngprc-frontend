@@ -163,7 +163,7 @@ export default {
       default: 'Table Title',
     },
     data_type: {
-      default: '',
+      default: 'all',
     },
   },
   data() {
@@ -176,12 +176,12 @@ export default {
           field: 'subject',
         },
         {
-          label: 'Start',
-          field: 'start',
+          label: 'Description',
+          field: 'description',
         },
         {
-          label: 'End',
-          field: 'end',
+          label: 'Post Date',
+          field: 'post_date',
         },
         {
           label: 'Action',
@@ -205,7 +205,7 @@ export default {
     },
   },
   created() {
-    this.$http.get(`/conference/${this.$props.data_type}`)
+    this.$http.get(`/presentation/${this.$props.data_type}`)
       .then(res => { this.rows = res.data; console.log('res.data ', res.data) })
   },
 }

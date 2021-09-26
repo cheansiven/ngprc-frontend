@@ -1,12 +1,12 @@
 <template>
-  <ConferenceTable />
+  <PresentationTable title="Approved Presentation" data_type="approved" />
 </template>
 <script>
-import ConferenceTable from '../conference/conference-table/ConferenceTable.vue'
+import PresentationTable from './presentation-table/PresentationTable.vue'
 
 export default {
   components: {
-    ConferenceTable,
+    PresentationTable,
   },
 }
 </script>

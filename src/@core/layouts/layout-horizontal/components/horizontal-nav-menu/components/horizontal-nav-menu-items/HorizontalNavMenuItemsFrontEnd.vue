@@ -1,6 +1,6 @@
-<template>
+E<template>
   <ul
-    id="main-menu-navigation"
+    id="front-end-main-menu-navigation"
     class="nav navbar-nav"
   >
     <component

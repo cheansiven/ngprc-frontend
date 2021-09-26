@@ -1,12 +1,12 @@
 <template>
-  <ConferenceTable />
+  <forum-table title="Popular" data_type="popular" />
 </template>
 <script>
-import ConferenceTable from '../conference/conference-table/ConferenceTable.vue'
+import ForumTable from './forum-table/ForumTable.vue'
 
 export default {
   components: {
-    ConferenceTable,
+    ForumTable,
   },
 }
 </script>

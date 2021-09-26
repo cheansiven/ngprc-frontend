@@ -39,10 +39,10 @@
           class="px-xl-2 mx-auto"
         >
           <b-card-title class="mb-1">
-            Adventure starts here 🚀
+            Welcome to CICME! 👋
           </b-card-title>
           <b-card-text class="mb-2">
-            Make your app management easy and fun!
+            Please register an account and start the adventure
           </b-card-text>
 
           <!-- form -->
@@ -134,11 +134,48 @@
                 </validation-provider>
               </b-form-group>
 
+              <!-- I want to propose a presentation. -->
+              <b-form-group>
+                <b-form-checkbox
+                    id="register-for-presentation"
+                    v-model="presentation"
+                    name="presentation-checkbox"
+                >
+                  I want to propose a presentation.
+                </b-form-checkbox>
+              </b-form-group>
+
+              <!-- I want to receive the newsletter. -->
+              <b-form-group>
+                <b-form-checkbox
+                    id="register-for-newsletter"
+                    v-model="newsletter"
+                    name="newsletter-checkbox"
+                >
+                  I want to receive the newsletter.
+                </b-form-checkbox>
+              </b-form-group>
+
+              <!-- I want to register to the forum. -->
+              <b-form-group>
+                <b-form-checkbox
+                    id="register-for-forum"
+                    v-model="forum"
+                    name="forum-checkbox"
+                    checked="checked"
+                    disabled="disabled"
+                >
+                  I want to register to the forum.
+                </b-form-checkbox>
+              </b-form-group>
+
               <b-form-group>
                 <b-form-checkbox
                   id="register-privacy-policy"
                   v-model="status"
-                  name="checkbox-1"
+                  name="status-checkbox"
+                  checked="checked"
+                  disabled="disabled"
                 >
                   I agree to
                   <b-link>privacy policy & terms</b-link>
@@ -238,7 +275,10 @@ export default {
   mixins: [togglePasswordVisibility],
   data() {
     return {
-      status: '',
+      status: true,
+      forum: true,
+      presentation: false,
+      newsletter: false,
       username: '',
       userEmail: '',
       password: '',

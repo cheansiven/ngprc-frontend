@@ -1,5 +1,5 @@
 <template>
-  <ConferenceTable title="Finished" />
+  <ConferenceTable title="Finished" data_type="finished" />
 </template>
 <script>
 import ConferenceTable from './conference-table/ConferenceTable.vue'

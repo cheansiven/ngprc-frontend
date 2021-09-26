@@ -257,6 +257,7 @@ export default {
   },
   methods: {
     validationForm() {
+      console.log(this.$http.post('/api/'))
       this.$refs.registerForm.validate().then(success => {
         if (success) {
           this.$toast({

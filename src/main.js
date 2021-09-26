@@ -2,10 +2,17 @@ import Vue from 'vue'
 import { ToastPlugin, ModalPlugin } from 'bootstrap-vue'
 import VueCompositionAPI from '@vue/composition-api'
 
+// Axios Mock Adapter
+import '@/@fake-db/db'
+
+// Comment code below if you want to use local fake db
+// import Axios from 'axios'
+// import VueCookies from 'vue-cookies'
 import i18n from '@/libs/i18n'
 import router from './router'
 import store from './store'
 import App from './App.vue'
+// ----------------------------------------------------
 
 // Global Components
 import './global-components'
@@ -20,8 +27,11 @@ import '@/libs/sweet-alerts'
 import '@/libs/vue-select'
 import '@/libs/tour'
 
-// Axios Mock Adapter
-import '@/@fake-db/db'
+// comment code below if you import '@/@fake-db/db'
+// Vue.prototype.$http = Axios
+// Vue.prototype.$cookies = VueCookies
+// Axios.defaults.baseURL = process.env.VUE_APP_API_URL
+// ------------------------------------------------
 
 // BSV Plugin Registration
 Vue.use(ToastPlugin)

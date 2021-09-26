@@ -47,26 +47,26 @@
             Please sign-in to your account and start the adventure
           </b-card-text>
 
-          <b-alert
-            variant="primary"
-            show
-          >
-            <div class="alert-body font-small-2">
-              <p>
-                <small class="mr-50"><span class="font-weight-bold">Admin:</span> admin@demo.com | admin</small>
-              </p>
-              <p>
-                <small class="mr-50"><span class="font-weight-bold">Client:</span> client@demo.com | client</small>
-              </p>
-            </div>
-            <feather-icon
-              v-b-tooltip.hover.left="'This is just for ACL demo purpose'"
-              icon="HelpCircleIcon"
-              size="18"
-              class="position-absolute"
-              style="top: 10; right: 10;"
-            />
-          </b-alert>
+<!--          <b-alert-->
+<!--            variant="primary"-->
+<!--            show-->
+<!--          >-->
+<!--            <div class="alert-body font-small-2">-->
+<!--              <p>-->
+<!--                <small class="mr-50"><span class="font-weight-bold">Admin:</span> admin@demo.com | admin</small>-->
+<!--              </p>-->
+<!--              <p>-->
+<!--                <small class="mr-50"><span class="font-weight-bold">Client:</span> client@demo.com | client</small>-->
+<!--              </p>-->
+<!--            </div>-->
+<!--            <feather-icon-->
+<!--              v-b-tooltip.hover.left="'This is just for ACL demo purpose'"-->
+<!--              icon="HelpCircleIcon"-->
+<!--              size="18"-->
+<!--              class="position-absolute"-->
+<!--              style="top: 10; right: 10;"-->
+<!--            />-->
+<!--          </b-alert>-->
 
           <!-- form -->
           <validation-observer
@@ -283,6 +283,7 @@ export default {
             password: this.password,
           })
             .then(response => {
+              console.log('login()', response.data);
               const { userData } = response.data
               useJwt.setToken(response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)
@@ -309,7 +310,10 @@ export default {
                 })
             })
             .catch(error => {
-              this.$refs.loginForm.setErrors(error.response.data.error)
+              console.error(error)
+              if (error.response && error.response.data) {
+                this.$refs.loginForm.setErrors(error.response.data.error)
+              }
             })
         }
       })

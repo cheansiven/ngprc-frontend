@@ -319,4 +319,18 @@ export default [
       ],
     },
   },
+
+  /// /
+  /// /
+  /// /
+
+  {
+    path: '/home',
+    name: 'home',
+    component: () => import('@/views/pages/front/Home.vue'),
+    meta: {
+      layout: 'full',
+    },
+  },
+
 ]

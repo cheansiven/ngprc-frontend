@@ -1,12 +1,12 @@
 <template>
-  <ConferenceTable />
+  <forum-table title="Early" data_type="early" />
 </template>
 <script>
-import ConferenceTable from '../conference/conference-table/ConferenceTable.vue'
+import ForumTable from './forum-table/ForumTable.vue'
 
 export default {
   components: {
-    ConferenceTable,
+    ForumTable,
   },
 }
 </script>

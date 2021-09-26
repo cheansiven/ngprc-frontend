@@ -4,10 +4,9 @@ const data = {
   tableBasic: [
     {
       id: 1,
-      subject: '[Subject]',
-      start: '[Start]',
-      end: '[End]',
-      status: 'Pending',
+      subject: 'Objective of Conference',
+      start: '12/10/2021 8:30',
+      end: '12/10/2021 10:30',
       extendedProps: {
         calendar: '',
         guests: [],
@@ -17,10 +16,9 @@ const data = {
     },
     {
       id: 2,
-      subject: '[Subject]',
-      start: '[Start]',
-      end: '[End]',
-      status: 'Rejected',
+      subject: 'Objective of Conferenc',
+      start: '12/10/2021 8:30',
+      end: '12/10/2021 10:30',
       extendedProps: {
         calendar: '',
         guests: [],
@@ -30,10 +28,9 @@ const data = {
     },
     {
       id: 3,
-      subject: '[Subject]',
-      start: '[Start]',
-      end: '[End]',
-      status: 'Approved',
+      subject: 'Objective of Conferenc',
+      start: '12/10/2021 8:30',
+      end: '12/10/2021 10:30',
       extendedProps: {
         calendar: '',
         guests: [],
@@ -43,10 +40,9 @@ const data = {
     },
     {
       id: 4,
-      subject: '[Subject]',
-      start: '[Start]',
-      end: '[End]',
-      status: 'Finished',
+      subject: 'Objective of Conferenc',
+      start: '12/10/2021 8:30',
+      end: '12/10/2021 10:30',
       extendedProps: {
         calendar: '',
         guests: [],
@@ -56,10 +52,9 @@ const data = {
     },
     {
       id: 5,
-      subject: '[Subject]',
-      start: '[Start]',
-      end: '[End]',
-      status: 'Pending',
+      subject: 'Objective of Conferenc',
+      start: '12/10/2021 8:30',
+      end: '12/10/2021 10:30',
       extendedProps: {
         calendar: '',
         guests: [],
@@ -69,10 +64,9 @@ const data = {
     },
     {
       id: 6,
-      subject: '[Subject]',
-      start: '[Start]',
-      end: '[End]',
-      status: 'Pending',
+      subject: 'Objective of Conferenc',
+      start: '12/10/2021 8:30',
+      end: '12/10/2021 10:30',
       extendedProps: {
         calendar: '',
         guests: [],
@@ -82,10 +76,9 @@ const data = {
     },
     {
       id: 7,
-      subject: '[Subject]',
-      start: '[Start]',
-      end: '[End]',
-      status: 'Pending',
+      subject: 'Objective of Conferenc',
+      start: '12/10/2021 8:30',
+      end: '12/10/2021 10:30',
       extendedProps: {
         calendar: '',
         guests: [],
@@ -95,10 +88,9 @@ const data = {
     },
     {
       id: 8,
-      subject: '[Subject]',
-      start: '[Start]',
-      end: '[End]',
-      status: 'Pending',
+      subject: 'Objective of Conferenc',
+      start: '12/10/2021 8:30',
+      end: '12/10/2021 10:30',
       extendedProps: {
         calendar: '',
         guests: [],
@@ -108,10 +100,9 @@ const data = {
     },
     {
       id: 9,
-      subject: '[Subject]',
-      start: '[Start]',
-      end: '[End]',
-      status: 'Pending',
+      subject: 'Objective of Conferenc',
+      start: '12/10/2021 8:30',
+      end: '12/10/2021 10:30',
       extendedProps: {
         calendar: '',
         guests: [],
@@ -121,10 +112,9 @@ const data = {
     },
     {
       id: 10,
-      subject: '[Subject]',
-      start: '[Start]',
-      end: '[End]',
-      status: 'Pending',
+      subject: 'Objective of Conferenc',
+      start: '12/10/2021 8:30',
+      end: '12/10/2021 10:30',
       extendedProps: {
         calendar: '',
         guests: [],
@@ -133,7 +123,8 @@ const data = {
       },
     },
   ],
-  /* eslint-disable global-require */
 }
 
-mock.onGet('/conference-table/basic').reply(() => [200, data.tableBasic])
+mock.onGet('/conference/coming_soon').reply(() => [200, data.tableBasic])
+mock.onGet('/conference/finished').reply(() => [200, data.tableBasic])
+mock.onGet('/conference/top').reply(() => [200, data.tableBasic])

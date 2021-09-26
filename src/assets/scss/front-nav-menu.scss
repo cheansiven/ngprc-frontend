@@ -1,0 +1,38 @@
+nav#top-menu {
+  position: absolute;
+  z-index: 2;
+  right: 0;
+  padding: 5px 28px;
+  width: 100%;
+  background-color: rgba(113, 110, 110, 0.48);
+  .nav {
+    &.top-menu {
+      float: right;
+      > li {
+        padding-top: 8px;
+        padding-bottom: 8px;
+
+        > a.nav-link {
+          font-size: 16px;
+          text-transform: uppercase;
+          font-weight: 500
+        }
+      }
+    }
+  }
+}
+.swiper-wrapper {
+  .overlay-content {
+    position: absolute;
+    z-index: 4;
+    bottom: 10px;
+    left: 10px;
+    width: 50%;
+    h2, p{
+      color:#fff;
+    }
+    h2{
+      font-size: 2rem;
+    }
+  }
+}

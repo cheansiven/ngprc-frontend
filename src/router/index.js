@@ -21,7 +21,7 @@ const router = new VueRouter({
     return { x: 0, y: 0 }
   },
   routes: [
-    { path: '/', redirect: { name: 'dashboard' } },
+    { path: '/', redirect: { name: 'home' } },
     ...apps,
     ...dashboard,
     ...pages,
@@ -38,13 +38,12 @@ const router = new VueRouter({
 
 router.beforeEach((to, _, next) => {
   const isLoggedIn = isUserLoggedIn()
-
   if (!canNavigate(to)) {
     // Redirect to login if not logged in
-    if (!isLoggedIn) return next({ name: 'auth-login' })
+    // if (!isLoggedIn) return next({ name: 'auth-login' })
 
     // If logged in => not authorized
-    return next({ name: 'misc-not-authorized' })
+    // return next({ name: 'misc-not-authorized'})
   }
 
   // Redirect if logged in
