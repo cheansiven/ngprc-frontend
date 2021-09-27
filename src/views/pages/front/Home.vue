@@ -82,7 +82,7 @@
         </b-col>
       </b-row>
     </div>
-    <div class="p-2 sub-footer">
+    <div class="p-4 sub-footer">
       <b-row>
         <b-col sm="3">
           <div class="text-base font-bold mb-2 color-gray-800">Organizing commitee</div>
