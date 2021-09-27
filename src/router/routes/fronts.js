@@ -1,6 +1,6 @@
 export default [
   {
-    path: '/home',
+    path: '/',
     name: 'home',
     component: () => import('@/views/pages/front/Home.vue'),
     meta: {
@@ -8,9 +8,25 @@ export default [
     },
   },
   {
-    path: '/speakers',
-    name: 'speakers',
-    component: () => import('@/views/pages/front/Home.vue'),
+    path: '/presentation',
+    name: 'presentation',
+    component: () => import('@/views/pages/front/Presentation.vue'),
+    meta: {
+      layout: 'full',
+    },
+  },
+  {
+    path: '/presenter',
+    name: 'presenter',
+    component: () => import('@/views/pages/front/Presentation.vue'),
+    meta: {
+      layout: 'full',
+    },
+  },
+  {
+    path: '/conference',
+    name: 'conference',
+    component: () => import('@/views/pages/front/Conference.vue'),
     meta: {
       layout: 'full',
     },
