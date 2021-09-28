@@ -1,9 +1,13 @@
 <template>
-  <div><h3>HELLO!</h3></div>
+  <calendar />
 </template>
 
 <script>
+import Calendar from '@/views/apps/conference/calendar/Calendar.vue'
 
 export default {
+  components: {
+    Calendar,
+  },
 }
 </script>

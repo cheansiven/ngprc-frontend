@@ -3,7 +3,7 @@
     <front-top-menu :isStatic="true" />
     <div class="p-2">
       <h2 class="m-1">
-        Presentations
+        Conference
       </h2>
       <b-row class="match-height">
         <b-col

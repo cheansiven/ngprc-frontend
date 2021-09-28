@@ -8,21 +8,43 @@ nav#top-menu {
   .nav {
     &.top-menu {
       float: right;
-      > li {
-        > a.nav-link {
-          padding: 1rem;
-          color: #FFF;
-          font-size: 16px;
-          text-transform: uppercase;
-          font-weight: 500;
-          &.active{
-            background-color: #282828;
-            font-style: italic;
+      > li.nav-item {
+        &.active{
+
+        }
+        > a{
+          div.user-nav{
+            display: block !important;
+            span,p{
+              font-size: 14px;
+              text-transform: capitalize;
+            }
+            span{
+              color: #a63b19;
+            }
+          }
+          &.nav-link {
+            padding: 1rem;
+            color: #FFF;
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: 500;
+            &.active{
+              font-style: italic;
+              font-weight: 800;
+              color: rgb(139, 22, 184);
+            }
+          }
+        }
+        &.dropdown-user{
+          a{
+            padding: 5px;
           }
         }
       }
     }
   }
+
 }
 .swiper-wrapper {
   .overlay-content {
@@ -42,62 +64,6 @@ nav#top-menu {
 .card-speaker-profile{
   .card-body{
 
-  }
-}
-
-.sub-footer {
-  background-color: #d1d1d1;
-  //box-shadow: 0 -4px 13px;
-  .flex {
-    display: flex;
-  }
-  .font-bold {
-    font-weight: 700;
-  }
-  .text-gray-600 {
-    color: #4b5563;
-  }
-  ol, ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .leading-normal {
-    line-height: 1.5;
-  }
-  .mt-4 {
-    margin-top: 1rem !important
-  }
-  .mb-2 {
-    margin-bottom: 0.5rem !important
-  }
-  .text-sm {
-    font-size: 0.875rem;
-  }
-  .text-gray-700 {
-    color: #374151;
-  }
-  .p-2 {
-    padding: 0.5rem !important;
-  }
-  .p-3 {
-    padding: 0.75rem  !important;
-  }
-  .h-auto {
-    height: auto;
-  }
-  button, input, optgroup, select, textarea {
-    font-family: inherit;
-    font-size: 100%;
-    line-height: 1.15;
-    margin: 0;
-  }
-  .bg-gray-800 {
-    background-color: #252f3f;
-    border-width: 0;
-  }
-  .color-gray-800{
-    color: #252f3f;
   }
 }
 

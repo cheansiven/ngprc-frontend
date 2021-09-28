@@ -18,7 +18,7 @@ export default [
   {
     path: '/presenter',
     name: 'presenter',
-    component: () => import('@/views/pages/front/Presentation.vue'),
+    component: () => import('@/views/pages/front/Presenter.vue'),
     meta: {
       layout: 'full',
     },
@@ -59,6 +59,14 @@ export default [
     path: '/forum/new',
     name: 'forum-new',
     component: () => import('@/views/pages/front/Home.vue'),
+    meta: {
+      layout: 'full',
+    },
+  },
+  {
+    path: '/blog',
+    name: 'blog',
+    component: () => import('@/views/pages/front/blog/BlogList.vue'),
     meta: {
       layout: 'full',
     },

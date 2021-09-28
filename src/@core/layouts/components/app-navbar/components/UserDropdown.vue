@@ -117,7 +117,8 @@
         class="mr-50"
       />
       <span>Logout</span>
-    </b-dropdown-item></b-nav-item-dropdown>
+    </b-dropdown-item>
+  </b-nav-item-dropdown>
 </template>
 
 <script>

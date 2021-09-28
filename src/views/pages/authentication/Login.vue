@@ -283,7 +283,7 @@ export default {
             password: this.password,
           })
             .then(response => {
-              console.log('login()', response.data);
+              console.log('login()', response.data)
               const { userData } = response.data
               useJwt.setToken(response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)

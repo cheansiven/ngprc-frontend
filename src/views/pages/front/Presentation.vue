@@ -12,7 +12,7 @@
             md="4"
             sm="2"
         >
-          <card-conference :conference="presentation" />
+          <card-presentation />
         </b-col>
       </b-row>
     </div>
@@ -22,29 +22,22 @@
 
 <script>
 import {
-  BRow, BCol, BImg,
+  BRow, BCol,
 } from 'bootstrap-vue'
-import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import FrontTopMenu from '@/components/FrontTopMenu.vue'
 import FrontFooter from '@/components/FrontFooter.vue'
 import 'swiper/css/swiper.css'
 import { codeAutoplay } from '@/views/extensions/swiper/code'
 
-import CardConference from '@/components/CardConference.vue'
-import CardForum from '@/components/CardForum.vue'
+import CardPresentation from '@/components/CardPresentation.vue'
 
 export default {
   components: {
     FrontFooter,
     FrontTopMenu,
-    Swiper,
-    SwiperSlide,
-    BImg,
-
     BRow,
     BCol,
-    CardConference,
-    CardForum,
+    CardPresentation,
   },
   data() {
     return {
