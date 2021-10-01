@@ -1,7 +1,7 @@
 <template>
   <!-- Under maintenance-->
   <div class="misc-wrapper">
-    <b-link class="brand-logo">
+    <b-link class="brand-logo" to="/">
       <site-logo />
 
       <h2 class="brand-text text-primary ml-1">

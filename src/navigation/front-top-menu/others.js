@@ -7,10 +7,10 @@ export default [
         title: 'Access Control',
         route: 'access-control',
         icon: 'ShieldIcon',
-        // acl: {
-        action: 'read',
-        resource: 'ACL',
-        // },
+        acl: {
+          action: 'read',
+          resource: 'ACL',
+        },
       },
       {
         title: 'Menu Levels',

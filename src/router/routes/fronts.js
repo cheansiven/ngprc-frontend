@@ -5,6 +5,7 @@ export default [
     component: () => import('@/views/pages/front/Home.vue'),
     meta: {
       layout: 'full',
+      resource: 'Auth',
     },
   },
   {
@@ -13,6 +14,7 @@ export default [
     component: () => import('@/views/pages/front/Presentation.vue'),
     meta: {
       layout: 'full',
+      resource: 'Auth',
     },
   },
   {
@@ -21,6 +23,7 @@ export default [
     component: () => import('@/views/pages/front/Presenter.vue'),
     meta: {
       layout: 'full',
+      resource: 'Auth',
     },
   },
   {
@@ -29,6 +32,7 @@ export default [
     component: () => import('@/views/pages/front/Conference.vue'),
     meta: {
       layout: 'full',
+      resource: 'Auth',
     },
   },
   {
@@ -37,6 +41,7 @@ export default [
     component: () => import('@/views/pages/front/Home.vue'),
     meta: {
       layout: 'full',
+      resource: 'Auth',
     },
   },
   {
@@ -45,6 +50,7 @@ export default [
     component: () => import('@/views/pages/front/Home.vue'),
     meta: {
       layout: 'full',
+      resource: 'Auth',
     },
   },
   {
@@ -53,6 +59,7 @@ export default [
     component: () => import('@/views/pages/front/Home.vue'),
     meta: {
       layout: 'full',
+      resource: 'Auth',
     },
   },
   {
@@ -61,6 +68,7 @@ export default [
     component: () => import('@/views/pages/front/Home.vue'),
     meta: {
       layout: 'full',
+      resource: 'Auth',
     },
   },
   {
@@ -69,6 +77,7 @@ export default [
     component: () => import('@/views/pages/front/blog/BlogList.vue'),
     meta: {
       layout: 'full',
+      resource: 'Auth',
     },
   },
 ]

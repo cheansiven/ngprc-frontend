@@ -4,7 +4,7 @@ export default [
   },
   {
     title: 'Pending Proposal',
-    route: 'apps-presentation-pending',
+    route: 'admin-presentation-pending',
     icon: 'CheckSquareIcon',
   },
   {
@@ -13,15 +13,15 @@ export default [
     children: [
       {
         title: 'Rejected',
-        route: 'apps-presentation-rejected',
+        route: 'admin-presentation-rejected',
       },
       {
         title: 'Approved',
-        route: 'apps-presentation-approved',
+        route: 'admin-presentation-approved',
       },
       {
         title: 'Finished',
-        route: 'apps-presentation-finished',
+        route: 'admin-presentation-finished',
       },
     ],
   },
@@ -33,12 +33,14 @@ export default [
   },
   {
     title: 'Calendar',
-    route: 'apps-conference-calendar',
+    route: 'admin-conference-calendar',
     icon: 'CalendarIcon',
+    resource: 'all-conference',
+    action: 'manage',
   },
   {
     title: 'Coming soon',
-    route: 'apps-conference-coming-soon',
+    route: 'admin-conference-coming-soon',
     icon: 'CalendarIcon',
   },
   {
@@ -47,11 +49,15 @@ export default [
     children: [
       {
         title: 'Early Finished',
-        route: { name: 'apps-conference-finished' },
+        route: 'admin-conference-finished',
+        resource: 'all-conference',
+        action: 'read',
       },
       {
         title: 'Top rank',
-        route: { name: 'apps-conference-top' },
+        route: 'admin-conference-top',
+        resource: 'all-conference',
+        action: 'read',
       },
     ],
   },
@@ -62,12 +68,18 @@ export default [
     header: 'Forum',
   },
   {
+    icon: 'CalendarIcon',
     title: 'Popular',
-    route: 'apps-forum-popular',
+    route: 'admin-forum-popular',
+    resource: 'all-forum',
+    action: 'read',
   },
   {
+    icon: 'CalendarIcon',
     title: 'Early',
-    route: 'apps-forum-early',
+    route: 'admin-forum-early',
+    resource: 'all-forum',
+    action: 'read',
   },
   // / /
   /// /
@@ -77,12 +89,16 @@ export default [
   },
   {
     title: 'User',
-    route: 'apps-users-list',
+    route: 'admin-users-list',
     icon: 'CalendarIcon',
+    resource: 'user',
+    action: 'read',
   },
   {
     title: 'Role',
-    route: 'apps-roles-list',
+    route: 'admin-roles-list',
     icon: 'CalendarIcon',
+    resource: 'user',
+    action: 'read',
   },
 ]

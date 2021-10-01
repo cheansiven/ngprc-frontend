@@ -1,46 +1,110 @@
-import mock from '@/@fake-db/mock'
 import jwt from 'jsonwebtoken'
+import mock from '@/@fake-db/mock'
+
+const roles = {
+  system_admin: [
+    {
+      action: 'manage',
+      subject: 'all',
+    },
+  ],
+  admin: [
+    { subject: 'all-forum', action: 'add' },
+    { subject: 'all-forum', action: 'update' },
+    { subject: 'all-forum', action: 'void' },
+    // /
+    { subject: 'all-conference', action: 'add' },
+    { subject: 'all-conference', action: 'update' },
+    { subject: 'all-conference', action: 'void' },
+    // /
+    { subject: 'all-presentation', action: 'add' },
+    { subject: 'all-presentation', action: 'update' },
+    { subject: 'all-presentation', action: 'void' },
+  ],
+  presenter: [
+    { action: 'read', subject: 'Auth' },
+    { subject: 'private-forum', action: 'add' },
+    { subject: 'private-forum', action: 'update' },
+    { subject: 'private-forum_comment', action: 'add' },
+    { subject: 'private-forum_comment', action: 'void' },
+    { subject: 'private-presentation', action: 'add' },
+    { subject: 'private-presentation', action: 'update' },
+  ],
+  approved: [
+    { action: 'read', subject: 'Auth' },
+    { subject: 'private-forum', action: 'add' },
+    { subject: 'private-forum', action: 'update' },
+    { subject: 'private-forum-comment', action: 'add' },
+    { subject: 'private-forum-comment', action: 'void' },
+    { subject: 'private-presentation', action: 'add' },
+    { subject: 'private-presentation', action: 'update' },
+  ],
+  special_guest: [
+    { action: 'read', subject: 'Auth' },
+    { subject: 'private-forum', action: 'unlimited' },
+  ],
+  Moderator: [
+    { action: 'read', subject: 'Auth' },
+    { subject: 'private-forum', action: 'unlimited' },
+    { subject: 'forum-section', action: 'manage' }, // Forum's Category
+    { subject: 'other-forum', action: 'manage' },
+  ],
+}
 
 const data = {
   users: [
     {
       id: 1,
-      fullName: 'John Doe',
-      username: 'johndoe',
-      password: 'admin',
+      fullName: 'System Admin',
+      username: 'system_admin',
+      password: '4dmi5',
       // eslint-disable-next-line global-require
       avatar: require('@/assets/images/avatars/13-small.png'),
-      email: 'admin@demo.com',
-      role: 'admin',
-      ability: [
-        {
-          action: 'manage',
-          subject: 'all',
-        },
-      ],
+      email: 'system_admin@demo.com',
+      role: 'system_admin',
+      ability: roles.system_admin,
       extras: {
         eCommerceCartItemsCount: 5,
       },
     },
     {
       id: 2,
-      fullName: 'Jane Doe',
-      username: 'janedoe',
-      password: 'client',
+      fullName: 'Admin',
+      username: 'admin',
+      password: 'admin',
+      // eslint-disable-next-line global-require
+      avatar: require('@/assets/images/avatars/13-small.png'),
+      email: 'admin@demo.com',
+      role: 'admin',
+      ability: roles.admin,
+      extras: {
+        eCommerceCartItemsCount: 5,
+      },
+    },
+    {
+      id: 3,
+      fullName: 'Sam Presenter',
+      username: 'sam_presenter',
+      password: '4dmi5',
       // eslint-disable-next-line global-require
       avatar: require('@/assets/images/avatars/1-small.png'),
-      email: 'client@demo.com',
-      role: 'client',
-      ability: [
-        {
-          action: 'read',
-          subject: 'ACL',
-        },
-        {
-          action: 'read',
-          subject: 'Auth',
-        },
-      ],
+      email: 'sam_presenter@demo.com',
+      role: 'presenter',
+      ability: roles.presenter,
+      extras: {
+        eCommerceCartItemsCount: 5,
+      },
+    },
+    {
+      id: 4,
+      fullName: 'Sam Approved',
+      username: 'sam_approved_user',
+      password: '4dmi5',
+      // eslint-disable-next-line global-require
+      avatar: require('@/assets/images/avatars/1-small.png'),
+      email: 'sam_approved_user@demo.com',
+      role: 'approved',
+      ability: roles.approved,
       extras: {
         eCommerceCartItemsCount: 5,
       },

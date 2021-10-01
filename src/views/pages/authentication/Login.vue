@@ -3,7 +3,7 @@
     <b-row class="auth-inner m-0">
 
       <!-- Brand logo-->
-      <b-link class="brand-logo">
+      <b-link class="brand-logo" to="/">
         <site-logo />
         <h2 class="brand-text text-primary ml-1">
           {{appName}}
