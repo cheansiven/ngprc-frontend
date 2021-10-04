@@ -1,7 +1,6 @@
-import newDashboard from './new-dashboard'
+import dashboard from './dashboard'
 
 // Array of sections
 export default [
-  ...newDashboard,
+  ...dashboard,
 ]
-

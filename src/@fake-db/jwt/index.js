@@ -1,54 +1,32 @@
 import jwt from 'jsonwebtoken'
 import mock from '@/@fake-db/mock'
+import roles from '@/@fake-db/data/json/roles'
 
-const roles = {
-  system_admin: [
-    {
-      action: 'manage',
-      subject: 'all',
-    },
-  ],
-  admin: [
-    { subject: 'all-forum', action: 'add' },
-    { subject: 'all-forum', action: 'update' },
-    { subject: 'all-forum', action: 'void' },
-    // /
-    { subject: 'all-conference', action: 'add' },
-    { subject: 'all-conference', action: 'update' },
-    { subject: 'all-conference', action: 'void' },
-    // /
-    { subject: 'all-presentation', action: 'add' },
-    { subject: 'all-presentation', action: 'update' },
-    { subject: 'all-presentation', action: 'void' },
-  ],
-  presenter: [
-    { action: 'read', subject: 'Auth' },
-    { subject: 'private-forum', action: 'add' },
-    { subject: 'private-forum', action: 'update' },
-    { subject: 'private-forum_comment', action: 'add' },
-    { subject: 'private-forum_comment', action: 'void' },
-    { subject: 'private-presentation', action: 'add' },
-    { subject: 'private-presentation', action: 'update' },
-  ],
-  approved: [
-    { action: 'read', subject: 'Auth' },
-    { subject: 'private-forum', action: 'add' },
-    { subject: 'private-forum', action: 'update' },
-    { subject: 'private-forum-comment', action: 'add' },
-    { subject: 'private-forum-comment', action: 'void' },
-    { subject: 'private-presentation', action: 'add' },
-    { subject: 'private-presentation', action: 'update' },
-  ],
-  special_guest: [
-    { action: 'read', subject: 'Auth' },
-    { subject: 'private-forum', action: 'unlimited' },
-  ],
-  Moderator: [
-    { action: 'read', subject: 'Auth' },
-    { subject: 'private-forum', action: 'unlimited' },
-    { subject: 'forum-section', action: 'manage' }, // Forum's Category
-    { subject: 'other-forum', action: 'manage' },
-  ],
+const abilities = {}
+
+const roles_keys = Object.keys(roles)
+
+for (let l1 = 0; l1 < roles_keys.length; l1++) {
+  const role_key = roles_keys[l1]
+  const role_value = roles[role_key]
+
+  Object.assign(abilities, { [role_key]: {} })
+
+  const permissions = []
+  for (let l2 = 0; l2 < role_value.length; l2++) {
+    const { subject } = role_value[l2]
+    const { actions } = role_value[l2]
+
+    // console.log('role_value[l2] ', role_value[l2])
+    // console.log('actions ', actions)
+
+    for (let l3 = 0; l3 < actions.length; l3++) {
+      const action = actions[l3]
+      const permission = { subject, action }
+      permissions.push(permission)
+    }
+  }
+  abilities[role_key] = permissions
 }
 
 const data = {
@@ -61,8 +39,8 @@ const data = {
       // eslint-disable-next-line global-require
       avatar: require('@/assets/images/avatars/13-small.png'),
       email: 'system_admin@demo.com',
-      role: 'system_admin',
-      ability: roles.system_admin,
+      role: 'SystemAdmin',
+      ability: abilities.SystemAdmin,
       extras: {
         eCommerceCartItemsCount: 5,
       },
@@ -75,8 +53,8 @@ const data = {
       // eslint-disable-next-line global-require
       avatar: require('@/assets/images/avatars/13-small.png'),
       email: 'admin@demo.com',
-      role: 'admin',
-      ability: roles.admin,
+      role: 'Admin',
+      ability: abilities.Admin,
       extras: {
         eCommerceCartItemsCount: 5,
       },
@@ -89,8 +67,8 @@ const data = {
       // eslint-disable-next-line global-require
       avatar: require('@/assets/images/avatars/1-small.png'),
       email: 'sam_presenter@demo.com',
-      role: 'presenter',
-      ability: roles.presenter,
+      role: 'Presenter',
+      ability: abilities.Presenter,
       extras: {
         eCommerceCartItemsCount: 5,
       },
@@ -103,14 +81,16 @@ const data = {
       // eslint-disable-next-line global-require
       avatar: require('@/assets/images/avatars/1-small.png'),
       email: 'sam_approved_user@demo.com',
-      role: 'approved',
-      ability: roles.approved,
+      role: 'Approved',
+      ability: abilities.Approved,
       extras: {
         eCommerceCartItemsCount: 5,
       },
     },
   ],
 }
+
+console.log('Local users ', data)
 
 // ! These two secrets shall be in .env file and not in any other file
 const jwtConfig = {

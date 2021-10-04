@@ -79,7 +79,7 @@
           </b-avatar>
         </template>
         <b-dropdown-item
-            :to="{ name: 'pages-profile'}"
+            :to="{ name: 'user-profile'}"
             link-class="d-flex align-items-center"
         >
           <feather-icon
@@ -90,7 +90,7 @@
           <span>Profile</span>
         </b-dropdown-item>
         <b-dropdown-item
-            :to="{ name: 'apps-email' }"
+            :to="{ name: 'user-email' }"
             link-class="d-flex align-items-center"
         >
           <feather-icon
@@ -101,7 +101,7 @@
           <span>Inbox</span>
         </b-dropdown-item>
         <b-dropdown-item
-            :to="{ name: 'apps-chat' }"
+            :to="{ name: 'user-chat' }"
             link-class="d-flex align-items-center"
         >
           <feather-icon
@@ -115,7 +115,7 @@
         <b-dropdown-divider />
 
         <b-dropdown-item
-            :to="{ name: 'pages-account-setting' }"
+            :to="{ name: 'user-setting' }"
             link-class="d-flex align-items-center"
         >
           <feather-icon

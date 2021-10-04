@@ -79,7 +79,7 @@ export default [
   {
     path: '/admin/users/roles/list',
     name: 'admin-roles-list',
-    component: () => import('@/views/admin/user/users-list/RolesList.vue'),
+    component: () => import('@/views/admin/roles/roles-list/RolesList.vue'),
   },
 
   // *===============================================---*
@@ -146,4 +146,5 @@ export default [
     name: 'admin-presentation-finished',
     component: () => import('@/views/admin/presentation/Finished.vue'),
   },
+
 ]

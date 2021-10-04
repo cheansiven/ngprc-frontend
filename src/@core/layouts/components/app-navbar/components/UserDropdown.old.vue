@@ -28,7 +28,7 @@
     </template>
 
     <b-dropdown-item
-      :to="{ name: 'user-profile'}"
+      :to="{ name: 'pages-profile'}"
       link-class="d-flex align-items-center"
     >
       <feather-icon
@@ -39,7 +39,7 @@
       <span>Profile</span>
     </b-dropdown-item>
     <b-dropdown-item
-      :to="{ name: 'user-email' }"
+      :to="{ name: 'apps-email' }"
       link-class="d-flex align-items-center"
     >
       <feather-icon
@@ -50,7 +50,18 @@
       <span>Inbox</span>
     </b-dropdown-item>
     <b-dropdown-item
-      :to="{ name: 'user-chat' }"
+      :to="{ name: 'apps-todo' }"
+      link-class="d-flex align-items-center"
+    >
+      <feather-icon
+        size="16"
+        icon="CheckSquareIcon"
+        class="mr-50"
+      />
+      <span>Task</span>
+    </b-dropdown-item>
+    <b-dropdown-item
+      :to="{ name: 'apps-chat' }"
       link-class="d-flex align-items-center"
     >
       <feather-icon
@@ -64,7 +75,7 @@
     <b-dropdown-divider />
 
     <b-dropdown-item
-      :to="{ name: 'user-setting' }"
+      :to="{ name: 'pages-account-setting' }"
       link-class="d-flex align-items-center"
     >
       <feather-icon
@@ -73,6 +84,28 @@
         class="mr-50"
       />
       <span>Settings</span>
+    </b-dropdown-item>
+    <b-dropdown-item
+      :to="{ name: 'pages-pricing' }"
+      link-class="d-flex align-items-center"
+    >
+      <feather-icon
+        size="16"
+        icon="CreditCardIcon"
+        class="mr-50"
+      />
+      <span>Pricing</span>
+    </b-dropdown-item>
+    <b-dropdown-item
+      :to="{ name: 'pages-faq' }"
+      link-class="d-flex align-items-center"
+    >
+      <feather-icon
+        size="16"
+        icon="HelpCircleIcon"
+        class="mr-50"
+      />
+      <span>FAQ</span>
     </b-dropdown-item>
     <b-dropdown-item
       link-class="d-flex align-items-center"

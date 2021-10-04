@@ -19,6 +19,7 @@ export const can = (action, subject) => {
  */
 export const canViewVerticalNavMenuLink = item => {
   console.log('canViewVerticalNavMenuLink ', item)
+  console.log('canViewVerticalNavMenuLink ', item.action, item.resource, can(item.action, item.resource))
   return can(item.action, item.resource)
 }
 

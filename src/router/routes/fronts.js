@@ -2,7 +2,7 @@ export default [
   {
     path: '/',
     name: 'home',
-    component: () => import('@/views/pages/front/Home.vue'),
+    component: () => import('@/views/front/Home.vue'),
     meta: {
       layout: 'full',
       resource: 'Auth',
@@ -11,7 +11,7 @@ export default [
   {
     path: '/presentation',
     name: 'presentation',
-    component: () => import('@/views/pages/front/Presentation.vue'),
+    component: () => import('@/views/front/Presentation.vue'),
     meta: {
       layout: 'full',
       resource: 'Auth',
@@ -20,7 +20,7 @@ export default [
   {
     path: '/presenter',
     name: 'presenter',
-    component: () => import('@/views/pages/front/Presenter.vue'),
+    component: () => import('@/views/front/Presenter.vue'),
     meta: {
       layout: 'full',
       resource: 'Auth',
@@ -29,7 +29,7 @@ export default [
   {
     path: '/conference',
     name: 'conference',
-    component: () => import('@/views/pages/front/Conference.vue'),
+    component: () => import('@/views/front/Conference.vue'),
     meta: {
       layout: 'full',
       resource: 'Auth',
@@ -38,7 +38,7 @@ export default [
   {
     path: '/conference/archive',
     name: 'conference-archive',
-    component: () => import('@/views/pages/front/Home.vue'),
+    component: () => import('@/views/front/Home.vue'),
     meta: {
       layout: 'full',
       resource: 'Auth',
@@ -47,7 +47,7 @@ export default [
   {
     path: '/conference/coming-soon',
     name: 'conference-coming-soon',
-    component: () => import('@/views/pages/front/Home.vue'),
+    component: () => import('@/views/front/Home.vue'),
     meta: {
       layout: 'full',
       resource: 'Auth',
@@ -56,7 +56,7 @@ export default [
   {
     path: '/forum/popular',
     name: 'forum-popular',
-    component: () => import('@/views/pages/front/Home.vue'),
+    component: () => import('@/views/front/Home.vue'),
     meta: {
       layout: 'full',
       resource: 'Auth',
@@ -65,7 +65,7 @@ export default [
   {
     path: '/forum/new',
     name: 'forum-new',
-    component: () => import('@/views/pages/front/Home.vue'),
+    component: () => import('@/views/front/Home.vue'),
     meta: {
       layout: 'full',
       resource: 'Auth',
@@ -74,7 +74,7 @@ export default [
   {
     path: '/blog',
     name: 'blog',
-    component: () => import('@/views/pages/front/blog/BlogList.vue'),
+    component: () => import('@/views/front/blog/BlogList.vue'),
     meta: {
       layout: 'full',
       resource: 'Auth',
