@@ -78,6 +78,19 @@
             />
           </b-avatar>
         </template>
+        <!-- Add Proposal -->
+        <b-dropdown-item
+            @click="addNewProposal"
+            link-class="d-flex align-items-center"
+        >
+          <feather-icon
+              size="16"
+              icon="UserIcon"
+              class="mr-50"
+          />
+          <span>Add Proposal</span>
+        </b-dropdown-item>
+        <!-- User Profile -->
         <b-dropdown-item
             :to="{ name: 'user-profile'}"
             link-class="d-flex align-items-center"
@@ -89,17 +102,19 @@
           />
           <span>Profile</span>
         </b-dropdown-item>
-        <b-dropdown-item
-            :to="{ name: 'user-email' }"
-            link-class="d-flex align-items-center"
-        >
-          <feather-icon
-              size="16"
-              icon="MailIcon"
-              class="mr-50"
-          />
-          <span>Inbox</span>
-        </b-dropdown-item>
+        <!-- User Email -->
+<!--        <b-dropdown-item-->
+<!--            :to="{ name: 'user-email' }"-->
+<!--            link-class="d-flex align-items-center"-->
+<!--        >-->
+<!--          <feather-icon-->
+<!--              size="16"-->
+<!--              icon="MailIcon"-->
+<!--              class="mr-50"-->
+<!--          />-->
+<!--          <span>Inbox</span>-->
+<!--        </b-dropdown-item>-->
+        <!-- User Chat -->
         <b-dropdown-item
             :to="{ name: 'user-chat' }"
             link-class="d-flex align-items-center"
@@ -113,18 +128,31 @@
         </b-dropdown-item>
 
         <b-dropdown-divider />
-
+        <!-- User Setting -->
+<!--        <b-dropdown-item-->
+<!--            :to="{ name: 'user-setting' }"-->
+<!--            link-class="d-flex align-items-center"-->
+<!--        >-->
+<!--          <feather-icon-->
+<!--              size="16"-->
+<!--              icon="SettingsIcon"-->
+<!--              class="mr-50"-->
+<!--          />-->
+<!--          <span>Settings</span>-->
+<!--        </b-dropdown-item>-->
+        <!-- Dashboard -->
         <b-dropdown-item
-            :to="{ name: 'user-setting' }"
+            :to="{ name: 'dashboard'}"
             link-class="d-flex align-items-center"
         >
           <feather-icon
               size="16"
-              icon="SettingsIcon"
+              icon="UserIcon"
               class="mr-50"
           />
-          <span>Settings</span>
+          <span>Dashboard</span>
         </b-dropdown-item>
+        <!-- Logout -->
         <b-dropdown-item
             link-class="d-flex align-items-center"
             @click="logout"
@@ -136,16 +164,22 @@
           />
           <span>Logout</span>
         </b-dropdown-item>
+        <!------------>
       </b-nav-item-dropdown>
     </b-nav>
+    <presentation-handler
+        :visible="isPresentationModalActive"
+        @update:modal="updateModalState"
+    />
   </nav>
 </template>
 
 <script>
 import {
-  BNav, BNavItem, BNavItemDropdown, BDropdownItem, BImg, BAvatar
+  BNav, BNavItem, BNavItemDropdown, BDropdownItem, BImg, BAvatar, BDropdownDivider,
 } from 'bootstrap-vue'
 import { avatarText } from '@core/utils/filter'
+import PresentationHandler from '@/views/admin/presentation/presentation-handler/PresentationHandler.vue'
 import useJwt from '@/auth/jwt/useJwt'
 import { initialAbility } from '@/libs/acl/config'
 
@@ -155,8 +189,10 @@ export default {
     BNav,
     BNavItem,
     BNavItemDropdown,
+    BDropdownDivider,
     BDropdownItem,
     BAvatar,
+    PresentationHandler,
   },
   props: {
     isStatic: {
@@ -169,11 +205,18 @@ export default {
       userData = JSON.parse(localStorage.getItem('userData'))
     }
     return {
+      isPresentationModalActive: false,
       userData,
       avatarText,
     }
   },
   methods: {
+    addNewProposal() {
+      this.isPresentationModalActive = true
+    },
+    updateModalState(state) {
+      this.isPresentationModalActive = state
+    },
     logout() {
       // Remove userData from localStorage
       // ? You just removed token from localStorage. If you like, you can also make API call to backend to blacklist used token

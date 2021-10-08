@@ -14,11 +14,21 @@
       </div>
 
       <i
+        v-if="!$props.disable_code"
         class="code-toggler feather icon-code cursor-pointer"
         :aria-expanded="!code_visible ? 'true' : 'false'"
         :aria-controls="parentID"
         @click="code_visible = !code_visible"
       />
+      <b-button
+        class="right-button"
+        v-if="$props.right_button_title != ''"
+        variant="primary"
+        block
+        @click="$emit('right_button_click', true)"
+      >
+        {{ $props.right_button_title }}
+      </b-button>
     </div>
 
     <template v-if="$attrs['no-body'] !== undefined">
@@ -61,7 +71,7 @@
 
 <script>
 import {
-  BCard, BCardTitle, BCardSubTitle, BCardBody, BCollapse,
+  BButton, BCard, BCardTitle, BCardSubTitle, BCardBody, BCollapse,
 } from 'bootstrap-vue'
 import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
@@ -69,6 +79,7 @@ import Prism from 'vue-prism-component'
 
 export default {
   components: {
+    BButton,
     BCard,
     BCardTitle,
     BCardSubTitle,
@@ -81,6 +92,12 @@ export default {
     codeLanguage: {
       default: 'markup',
       type: String,
+    },
+    disable_code: {
+      default: false,
+    },
+    right_button_title: {
+      default: '',
     },
   },
   data() {

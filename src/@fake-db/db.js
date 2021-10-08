@@ -37,4 +37,6 @@ import './data/pages/profile-data'
 import './data/pages/blog'
 /* eslint-enable import/extensions */
 
+import './data/countries/countries'
+
 mock.onAny().passThrough() // forwards the matched request over network

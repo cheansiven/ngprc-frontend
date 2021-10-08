@@ -7,6 +7,53 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 
 @import "front-nav-menu";
 
+.margin-bottom-10>div {
+  margin-bottom: 10px;
+}
+
+.card-header .right-button{
+  width: 13rem;
+}
+.form-group{
+  .input-group{
+    .btn.button-as-text-box {
+      text-align: left;
+      background-color: #fff !important;
+      border: 1px solid #d8d6de !important;
+      color: #d8d6de !important;
+      &.is-has-text {
+        color: #6e6b7b !important;
+      }
+      &:hover, &:focus, &:active, &.active {
+        box-shadow: unset;
+        background-color: #fff !important;
+      }
+    }
+  }
+}
+
+.custom-radio.custom-control {
+  margin-bottom: 5px;
+}
+
+.md-date-picker {
+  .modal-header {
+    height: 0;
+    padding: 0;
+    .close {
+      transform: translate(-4px,2px);
+    }
+  }
+}
+
+.label-sub-title{
+  font-size: 11px;
+  font-style: italic;
+  color:#b6b5b5;
+  position: relative;
+  top: -7px;
+}
+
 .sub-footer {
   background-color: #d1d1d1;
   //box-shadow: 0 -4px 13px;
