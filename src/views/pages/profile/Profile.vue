@@ -69,6 +69,8 @@ import ProfileLatestPhotos from './ProfileLatestPhotos.vue'
 import ProfileSuggestion from './ProfileSuggestion.vue'
 import ProfilePolls from './ProfilePolls.vue'
 import profileBottom from './profileBottom.vue'
+import useJwt from '@/auth/jwt/useJwt'
+import axios from 'axios'
 
 /* eslint-disable global-require */
 export default {
@@ -92,7 +94,12 @@ export default {
     }
   },
   created() {
-    this.$http.get('/profile/data').then(res => { this.profileData = res.data })
+    // const config = {
+    //   headers: {
+    //     Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
+    //   },
+    // }
+    useJwt.axiosIns.get('/user/profile/data').then(res => { this.profileData = res.data })
   },
 }
 /* eslint-disable global-require */

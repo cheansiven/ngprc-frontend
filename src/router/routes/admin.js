@@ -146,5 +146,10 @@ export default [
     name: 'admin-presentation-finished',
     component: () => import('@/views/admin/presentation/Finished.vue'),
   },
+  {
+    path: '/admin/presentation/me',
+    name: 'admin-presentation-me',
+    component: () => import('@/views/admin/presentation/Own.vue'),
+  },
 
 ]

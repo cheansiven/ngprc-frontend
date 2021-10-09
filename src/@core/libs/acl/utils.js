@@ -18,8 +18,8 @@ export const can = (action, subject) => {
  * @param {Object} item navigation object item
  */
 export const canViewVerticalNavMenuLink = item => {
-  console.log('canViewVerticalNavMenuLink ', item)
-  console.log('canViewVerticalNavMenuLink ', item.action, item.resource, can(item.action, item.resource))
+  // console.log('canViewVerticalNavMenuLink ', item)
+  // console.log('canViewVerticalNavMenuLink ', item.action, item.resource, can(item.action, item.resource))
   return can(item.action, item.resource)
 }
 

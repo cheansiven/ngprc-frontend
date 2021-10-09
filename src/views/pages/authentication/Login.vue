@@ -3,10 +3,13 @@
     <b-row class="auth-inner m-0">
 
       <!-- Brand logo-->
-      <b-link class="brand-logo" to="/">
+      <b-link
+        class="brand-logo"
+        to="/"
+      >
         <site-logo />
         <h2 class="brand-text text-primary ml-1">
-          {{appName}}
+          {{ appName }}
         </h2>
       </b-link>
       <!-- /Brand logo-->
@@ -41,32 +44,32 @@
             class="mb-1 font-weight-bold"
             title-tag="h2"
           >
-            Welcome to {{appName}}! 👋
+            Welcome to {{ appName }}! 👋
           </b-card-title>
           <b-card-text class="mb-2">
             Please sign-in to your account and start the adventure
           </b-card-text>
 
-<!--          <b-alert-->
-<!--            variant="primary"-->
-<!--            show-->
-<!--          >-->
-<!--            <div class="alert-body font-small-2">-->
-<!--              <p>-->
-<!--                <small class="mr-50"><span class="font-weight-bold">Admin:</span> admin@demo.com | admin</small>-->
-<!--              </p>-->
-<!--              <p>-->
-<!--                <small class="mr-50"><span class="font-weight-bold">Client:</span> client@demo.com | client</small>-->
-<!--              </p>-->
-<!--            </div>-->
-<!--            <feather-icon-->
-<!--              v-b-tooltip.hover.left="'This is just for ACL demo purpose'"-->
-<!--              icon="HelpCircleIcon"-->
-<!--              size="18"-->
-<!--              class="position-absolute"-->
-<!--              style="top: 10; right: 10;"-->
-<!--            />-->
-<!--          </b-alert>-->
+          <!--          <b-alert-->
+          <!--            variant="primary"-->
+          <!--            show-->
+          <!--          >-->
+          <!--            <div class="alert-body font-small-2">-->
+          <!--              <p>-->
+          <!--                <small class="mr-50"><span class="font-weight-bold">Admin:</span> admin@demo.com | admin</small>-->
+          <!--              </p>-->
+          <!--              <p>-->
+          <!--                <small class="mr-50"><span class="font-weight-bold">Client:</span> client@demo.com | client</small>-->
+          <!--              </p>-->
+          <!--            </div>-->
+          <!--            <feather-icon-->
+          <!--              v-b-tooltip.hover.left="'This is just for ACL demo purpose'"-->
+          <!--              icon="HelpCircleIcon"-->
+          <!--              size="18"-->
+          <!--              class="position-absolute"-->
+          <!--              style="top: 10; right: 10;"-->
+          <!--            />-->
+          <!--          </b-alert>-->
 
           <!-- form -->
           <validation-observer
@@ -216,13 +219,12 @@ import SiteLogo from '@core/layouts/components/Logo.vue'
 import {
   BRow, BCol, BLink, BFormGroup, BFormInput, BInputGroupAppend, BInputGroup, BFormCheckbox, BCardText, BCardTitle, BImg, BForm, BButton, BAlert, VBTooltip,
 } from 'bootstrap-vue'
-import useJwt from '@/auth/jwt/useJwt'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
+import useJwt from '@/auth/jwt/useJwt'
 import store from '@/store/index'
 import { getHomeRouteForLoggedInUser } from '@/auth/utils'
-
-import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import { $themeConfig } from '../../../../themeConfig'
 
 export default {
@@ -283,16 +285,34 @@ export default {
             password: this.password,
           })
             .then(response => {
-              console.log('login()', response.data)
+              console.log(response.data)
+              if (response.data.error === '1') {
+                this.$toast({
+                  component: ToastificationContent,
+                  position: 'top-right',
+                  props: {
+                    title: 'Warning',
+                    icon: 'WarningIcon',
+                    variant: 'warning',
+                    text: response.data.message,
+                  },
+                })
+                return
+              }
+              // console.log('login()', response.data)
               const { userData } = response.data
               useJwt.setToken(response.data.accessToken)
               useJwt.setRefreshToken(response.data.refreshToken)
               localStorage.setItem('userData', JSON.stringify(userData))
               this.$ability.update(userData.ability)
 
+              console.log('userData.ability ', userData.ability)
+
               // ? This is just for demo purpose as well.
               // ? Because we are showing eCommerce app's cart items count in navbar
-              this.$store.commit('app-ecommerce/UPDATE_CART_ITEMS_COUNT', userData.extras.eCommerceCartItemsCount)
+              if (typeof userData.extras !== 'undefined') {
+                this.$store.commit('app-ecommerce/UPDATE_CART_ITEMS_COUNT', userData.extras.eCommerceCartItemsCount)
+              }
 
               // ? This is just for demo purpose. Don't think CASL is role based in this case, we used role in if condition just for ease
               this.$router.replace(getHomeRouteForLoggedInUser(userData.role))

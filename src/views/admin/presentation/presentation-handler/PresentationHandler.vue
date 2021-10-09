@@ -19,35 +19,15 @@
             >
               <b-input-group class="input-group-merge">
                 <b-button
-                    id="vi-time"
-                    :class="['button-as-text-box',presentationDateTimeClass]"
-                    block
-                    @click="dateTimeShowed = true"
+                  id="vi-time"
+                  :class="['button-as-text-box',presentationDateTimeClass]"
+                  block
+                  @click="dateTimeShowed = true"
                 >
-                  {{presentationDateTime}}
+                  {{ presentationDateTime }}
                 </b-button>
               </b-input-group>
             </b-form-group>
-          </b-col>
-          <!-- email -->
-          <b-col cols="12">
-            <b-form-group
-              label="Email"
-              label-for="vi-email"
-            >
-              <b-input-group class="input-group-merge">
-                <b-form-input
-                  id="vi-email"
-                  type="email"
-                  placeholder="Email"
-                  v-model="presentationEmail"
-                />
-              </b-input-group>
-            </b-form-group>
-          </b-col>
-          <!-- Presentation Section -->
-          <b-col cols="12">
-            <h4>Your presentation</h4>
           </b-col>
           <!-- Title -->
           <b-col cols="12">
@@ -59,104 +39,9 @@
               <b-input-group class="input-group-merge">
                 <b-form-input
                   id="vi-presentation"
+                  v-model="presentationTitle"
                   type="text"
                   placeholder="Enter the title of your talk, workshop, or research topic."
-                  v-model="presentationTitle"
-                />
-              </b-input-group>
-            </b-form-group>
-          </b-col>
-          <!-- Presentation Format -->
-          <b-col cols="12">
-            <b-form-group
-              label="Presentation Format"
-              label-for="vi-presentation-format"
-            >
-              <b-form-radio-group
-                id="vi-presentation-format"
-                v-model="presentationFormat"
-                :options="presentation_format_options"
-                name="radios-presentation-format"
-                stacked
-              />
-            </b-form-group>
-          </b-col>
-          <!-- Abstract -->
-          <b-col cols="12">
-            <b-form-group
-              label="Abstract"
-              label-for="vi-abstract"
-              v-model="abstract"
-            >
-              <label-sub-title
-                title="Please put your 300-500 words abstract which will be linked on your CICME profile page"
-              />
-              <b-input-group class="input-group-merge">
-                <b-form-input
-                  id="abstract"
-                  placeholder="Please put your abstract words"
-                />
-              </b-input-group>
-            </b-form-group>
-          </b-col>
-          <!-- Keywords -->
-          <b-col cols="12">
-            <b-form-group
-              label="Keywords"
-              label-for="vi-keywords"
-            >
-              <label-sub-title
-                title="Please provide a few keywords (e.g. school-based mentoring, teacher professional development, …)"
-              />
-
-              <b-input-group class="input-group-merge">
-                <b-form-tags
-                  v-model="keywords"
-                  input-id="vi-keywords"
-                  placeholder="Add your keywords"
-                />
-              </b-input-group>
-            </b-form-group>
-          </b-col>
-
-          <b-col cols="12">
-            <h4>General information</h4>
-          </b-col>
-          <!-- Title and Name -->
-          <b-col cols="12">
-            <b-form-group
-              label="Title and Name"
-              label-for="vi-title-and-name"
-            >
-              <label-sub-title
-                title="For use in official announcements, please provide your full title (e.g. Prof. Jean-François Maheux, Dr. Sun Somara)"
-              />
-
-              <b-input-group class="input-group-merge">
-                <b-form-input
-                  id="vi-title-and-name"
-                  type="text"
-                  placeholder="Entry your name and title"
-                  v-model="titleAndName"
-                />
-              </b-input-group>
-            </b-form-group>
-          </b-col>
-          <!-- Shorter version of title and name -->
-          <b-col cols="12">
-            <b-form-group
-              label="Shorter version of title and name"
-              label-for="vi-short-version-of-title-and-name"
-            >
-              <label-sub-title
-                title="Please specify the email address you like us to print on the conference program and on the website. It can be the same email you provided above (which we will use to contact you in relation with your submission), or a different one (e.g. official institutional email)."
-              />
-              <b-input-group class="input-group-merge">
-                <b-form-input
-                  id="vi-short-version-of-title-and-name"
-                  type="text"
-                  placeholder="Entry your name and title"
-                  v-model="shortOfTitleAndName"
                 />
               </b-input-group>
             </b-form-group>
@@ -173,99 +58,92 @@
               <b-input-group class="input-group-merge">
                 <b-form-input
                   id="vi-email-for-program"
+                  v-model="emailForProgram"
                   type="email"
                   placeholder="Entry Program's email"
-                  v-model="emailForProgram"
                 />
               </b-input-group>
             </b-form-group>
           </b-col>
-          <!-- Phone (optional) -->
+          <!-- Presentation Format -->
           <b-col cols="12">
             <b-form-group
-              label="Phone (optional)"
-              label-for="vi-phone"
+              label="Presentation Format"
+              label-for="vi-presentation-format"
             >
-              <label-sub-title title="Provide your phone number (+855 10 xxx xxx)" />
-              <b-input-group class="input-group-merge">
-                <b-form-input
-                  id="vi-phone"
-                  type="text"
-                  placeholder="Entry your phone number"
-                  v-model="phoneNumber"
-                />
-              </b-input-group>
+              <b-form-radio-group
+                id="vi-presentation-format"
+                v-model="presentationFormat"
+                name="radios-presentation-format"
+                stacked
+              >
+                <b-form-radio
+                  v-for="option in presentationFormats"
+                  :key="option.id"
+                  :value="option.id"
+                >
+                  {{ option.name }}
+                </b-form-radio>
+
+              </b-form-radio-group>
             </b-form-group>
           </b-col>
-          <!-- Organization * -->
+          <!-- Abstract -->
           <b-col cols="12">
             <b-form-group
-              label="Organization *"
-              label-for="vi-organization"
+              label="Abstract"
+              label-for="vi-abstract"
             >
               <label-sub-title
-                title="Please provide the full designation of your organization (university, NGO, company etc.), not only the acronym."
+                title="Please put your 300-500 words abstract which will be linked on your CICME profile page"
               />
               <b-input-group class="input-group-merge">
                 <b-form-input
-                  id="vi-organization"
-                  type="text"
-                  placeholder="Entry your organization"
-                  v-model="organization"
+                  id="abstract"
+                  v-model="abstract"
+                  placeholder="Please put your abstract words"
                 />
               </b-input-group>
             </b-form-group>
           </b-col>
-          <!-- City/Country of your Organization * -->
+          <!-- Keywords -->
           <b-col cols="12">
             <b-form-group
-              label="City/Country of your Organization *"
-              label-for="vi-city-of-organization"
+              label="Keywords"
+              label-for="vi-keywords"
             >
+              <label-sub-title
+                title="Please provide a few keywords (e.g. school-based mentoring, teacher professional development, …)"
+              />
+              <b-input-group class="input-group-merge">
+                <b-form-tags
+                  v-model="keywords"
+                  input-id="vi-keywords"
+                  placeholder="Add your keywords"
+                />
+              </b-input-group>
+            </b-form-group>
+          </b-col>
+          <!-- Status -->
+          <b-col cols="12">
+            <b-form-group
+              label="Status"
+              label-for="vi-status"
+            >
+              <label-sub-title
+                title="Please provide a few keywords (e.g. school-based mentoring, teacher professional development, …)"
+              />
               <b-input-group class="input-group-merge">
                 <b-form-select
-                  v-model="countryOrState"
+                  v-model="active"
                 >
-                  <b-form-select-option-group
-                    v-for="country in countries"
-                    :label="country.name"
-                    :key="country.name + country.iso3"
+                  <b-form-select-option
+                    v-for="option in status_options"
+                    :value="option.key"
                   >
-
-                    <b-form-select-option
-                      v-if="!country.states.length"
-                      :key="country.name + country.iso3"
-                      :value="country"
-                    >
-                      {{ country.name }}
-                    </b-form-select-option>
-
-                    <b-form-select-option
-                      v-for="state in country.states"
-                      :key="state.name + state.iso3"
-                      :value="state"
-                    >
-                      {{ state.name }}
-                    </b-form-select-option>
-
-                  </b-form-select-option-group>
+                    {{ option.name }}
+                  </b-form-select-option>
                 </b-form-select>
-              </b-input-group>
-            </b-form-group>
-          </b-col>
-          <!-- Your Position -->
-          <b-col cols="12">
-            <b-form-group
-              label="Your Position"
-              label-for="vi-job-position"
-            >
-              <b-input-group class="input-group-merge">
-                <b-form-input
-                  id="vi-job-position"
-                  type="text"
-                  placeholder="Entry your position"
-                  v-model="jobPosition"
-                />
               </b-input-group>
             </b-form-group>
           </b-col>
@@ -291,14 +169,14 @@
       </b-form>
       <date-time-picker-modal
         :visible="dateTimeShowed"
-        v-on:update:modal="getSelectedDateTime"
+        @update:modal="getSelectedDateTime"
       />
     </b-modal>
   </div>
 </template>
 
 <script>
-import axios from '@axios'
+
 import Ripple from 'vue-ripple-directive'
 import { required, email, url } from '@validations'
 import {
@@ -308,18 +186,17 @@ import {
   BCol,
   BFormGroup,
   BFormRadioGroup,
+  BFormRadio,
   BFormInput,
   BForm,
   BInputGroup,
   BFormTags,
   BFormSelect,
   BFormSelectOption,
-  BFormSelectOptionGroup,
 } from 'bootstrap-vue'
 import LabelSubTitle from '@/components/LabelSubTitle.vue'
-import DateTimePickerModal from '@/components/DateTimePickerModal'
-import presentation_formats from '@/@fake-db/data/json/presentation_formats'
-import countries from '@/@fake-db/data/json/countries'
+import DateTimePickerModal from '@/components/DateTimePickerModal.vue'
+import useJwt from '@/auth/jwt/useJwt'
 
 export default {
   components: {
@@ -333,10 +210,10 @@ export default {
     BFormInput,
     BInputGroup,
     BFormRadioGroup,
+    BFormRadio,
     BButton,
     BFormTags,
     BFormSelect,
-    BFormSelectOptionGroup,
     BFormSelectOption,
   },
   directives: {
@@ -347,101 +224,127 @@ export default {
       type: Boolean,
       required: true,
     },
+    presentation: {
+      type: Object,
+    },
   },
   data() {
     return {
-      presentationDateTime: 'Presentation time',
-      presentationEmail: '',
-      presentationTitle: '',
-      presentationFormat: -1,
-      abstract: '',
-      keywords: [],
-      titleAndName: '',
-      shortOfTitleAndName: '',
-      emailForProgram: '',
-      phoneNumber: '',
-      organization: '',
-      countryOrState: {},
-      jobPosition: '',
-      // /
-      presentationDateTimeClass: '',
+      status_options: [
+        { key: 0, name: 'Inactive' },
+        { key: 1, name: 'Pending' },
+        { key: 2, name: 'Active' },
+        { key: 3, name: 'Approved' },
+      ],
+      presentationId: false,
       dateTimeShowed: false,
-      countries: [],
-      presentation_format_options: [],
+      presentationDateTimeClass: '',
+      // presentation
+      presentationDateTime: 'Presentation time',
+      presentationTitle: '',
+      presentationFormat: {},
+      presentationFormats: [],
+      keywords: [],
+      abstract: '',
+      emailForProgram: '',
+      // /
       required,
       email,
       url,
     }
   },
-  mounted() {
-    this.getPresentationOptions()
+  watch: {
+    presentation(nVal, oVal) {
+      if (nVal !== oVal) {
+        if (nVal.id) {
+          this.presentationId = nVal.id
+          this.presentationTitle = nVal.title
+          this.presentationFormat = nVal.format
+          this.emailForProgram = nVal.event_email
+          this.keywords = nVal.keywords.split(',')
+          this.abstract = nVal.abstract
+          this.active = nVal.active ?? '1'
+          this.presentationDateTime = nVal.event_date ?? 'Presentation time'
+
+          if (this.presentationDateTime !== '' || this.presentationDateTime !== 'Presentation time') {
+            this.presentationDateTimeClass = 'is-has-text'
+          } else {
+            this.presentationDateTimeClass = ''
+          }
+        } else {
+          this.presentationId = false
+          this.presentationTitle = ''
+          this.presentationFormat = ''
+          this.emailForProgram = ''
+          this.keywords = []
+          this.abstract = ''
+          this.active = '0'
+
+          this.presentationDateTime = 'Presentation time'
+          this.presentationDateTimeClass = ''
+        }
+      }
+    },
+  },
+  created() {
+    this.getPresentationFormats()
     this.getAllCountries()
   },
   methods: {
-    getPresentationOptions() {
-      this.presentation_format_options = [
-        {
-          text: 'Plenary presentation (35 min, plus 10 min for Q&A)',
-          value: '1',
-        },
-        {
-          text: 'Panel Discussion (45 min, plus 10 min Q&A)',
-          value: '2',
-        },
-        {
-          text: 'Discussion group (20-45 min, depending on the number of participants)',
-          value: '3',
-        },
-        {
-          text: 'Workshop (with audience participation, e.g. through shared documents or breakout rooms, 45 min).',
-          value: '4',
-        },
-        {
-          text: 'Paper presentation (20 min, plus 10 min Q&A).',
-          value: '5',
-        },
-      ]
+    async getPresentationFormats() {
+      const cjson = localStorage.getItem('presentationFormats')
+      if (!cjson || cjson === null || cjson === '') {
+        const promise = await this.$http.get('presentation-formats')
+        if (promise.status === 200) {
+          if (!promise.data.error) {
+            this.presentationFormats = promise.data
+            localStorage.setItem('presentationFormats', JSON.stringify(this.presentationFormats))
+          }
+        }
+      } else {
+        this.presentationFormats = JSON.parse(cjson)
+      }
     },
     async getAllCountries() {
-      const promise = await axios
-        .get('/countries', {
-          params: {},
-        })
+      const cjson = localStorage.getItem('countries')
+      if (!cjson || cjson === null || cjson === '') {
+        const promise = await this.$http.get('/countries', null)
 
-      if (promise.status === 200) {
-        this.countries = promise.data
+        if (promise.status === 200) {
+          this.countries = promise.data
+          localStorage.setItem('countries', JSON.stringify(this.countries))
+        }
+      } else {
+        this.countries = JSON.parse(cjson)
       }
-
-      console.log('getAllCountries', this.countries)
     },
     getSelectedDateTime(showed, value) {
+      console.log('getSelectedDateTime ', `--${value}--`)
       this.dateTimeShowed = showed
-      this.presentationDateTime = value
+      this.presentationDateTime = value ?? 'Presentation time'
 
-      if (this.presentationDateTime !== '' || this.presentationDateTime !== 'Presentation time'){
+      if (this.presentationDateTime !== '' || this.presentationDateTime !== 'Presentation time') {
         this.presentationDateTimeClass = 'is-has-text'
       } else {
         this.presentationDateTimeClass = ''
       }
+      // if (this.presentationDateTime === '' || !this.presentationDateTime || this.presentationDateTime == null) {
+      //   this.presentationDateTime = 'Presentation time'
+      // }
     },
-  },
-  onSubmit() {
-    const data = {
-      presentation_date: this.presentationDateTime,
-      presentation_title: this.presentationTitle,
-      presentation_format: this.presentationFormat,
-      title_and_name: this.titleAndName,
-      short_title_and_name: this.shortOfTitleAndName,
-      presenter_email: this.email,
-      presentation_email: this.presentationEmail,
-      presentation_phone: this.phoneNumber,
-      organization: this.organization,
-      country: this.countryOrState,
-      presenter_position: this.jobPosition,
-      abstract: this.abstract,
-      keywords: this.keywords,
-    }
-    this.$emit('update:modal', false, data)
+    async onSubmit() {
+      const data = {
+        id: this.presentationId,
+        event_date: this.presentationDateTime,
+        title: this.presentationTitle,
+        event_email: this.emailForProgram,
+        keywords: this.keywords,
+        abstract: this.abstract,
+        format: this.presentationFormat,
+        active: this.active,
+      }
+      this.$emit('update:modal', false, data)
+    },
   },
 }
 </script>

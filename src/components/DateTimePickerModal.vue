@@ -78,7 +78,10 @@ export default {
     onClose() {
       console.log('selectedDate', this.selectedDate)
       console.log('selectedTime', this.selectedTime)
-      const selectedDateTime = `${this.selectedDate} ${this.selectedTime}`
+      let selectedDateTime = ''
+      if (this.selectedDate !== '' || this.selectedTime !== '') {
+        selectedDateTime = `${this.selectedDate} ${this.selectedTime}`.trim()
+      }
       this.$emit('update:modal', false, selectedDateTime)
     },
   },

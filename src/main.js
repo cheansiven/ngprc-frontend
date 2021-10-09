@@ -6,8 +6,9 @@ import VueCompositionAPI from '@vue/composition-api'
 import '@/@fake-db/db'
 
 // Comment code below if you want to use local fake db
-// import Axios from 'axios'
-// import VueCookies from 'vue-cookies'
+import Axios from 'axios'
+import VueCookies from 'vue-cookies'
+
 import i18n from '@/libs/i18n'
 import router from './router'
 import store from './store'
@@ -28,9 +29,9 @@ import '@/libs/vue-select'
 import '@/libs/tour'
 
 // comment code below if you import '@/@fake-db/db'
-// Vue.prototype.$http = Axios
-// Vue.prototype.$cookies = VueCookies
-// Axios.defaults.baseURL = process.env.VUE_APP_API_URL
+Vue.prototype.$http = Axios
+Vue.prototype.$cookies = VueCookies
+Axios.defaults.baseURL = process.env.VUE_APP_API_URL
 // ------------------------------------------------
 
 // BSV Plugin Registration

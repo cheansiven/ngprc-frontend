@@ -5,6 +5,13 @@ export default [
     action: 'read',
   },
   {
+    title: 'My Presentation',
+    icon: 'CalendarIcon',
+    route: 'admin-presentation-me',
+    resource: 'OwnPresentation',
+    action: 'read',
+  },
+  {
     title: 'Pending Proposal',
     route: 'admin-presentation-pending',
     icon: 'CheckSquareIcon',

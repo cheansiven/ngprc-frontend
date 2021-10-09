@@ -27,6 +27,15 @@ export default [
     },
   },
   {
+    path: '/presenter/:id',
+    name: 'presenter-profile',
+    component: () => import('@/views/front/presenter-profile/Profile.vue'),
+    meta: {
+      layout: 'full',
+      resource: 'Auth',
+    },
+  },
+  {
     path: '/conference',
     name: 'conference',
     component: () => import('@/views/front/Conference.vue'),

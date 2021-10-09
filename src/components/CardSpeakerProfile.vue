@@ -15,6 +15,7 @@
     <b-button
       v-ripple.400="'rgba(113, 102, 240, 0.15)'"
       variant="outline-primary"
+      @click="goToProfile"
     >
       View Profile
     </b-button>
@@ -47,6 +48,11 @@ export default {
     speaker: {
       default: {},
       required: true,
+    },
+  },
+  methods: {
+    goToProfile() {
+      this.$router.push('/presenter/8374')
     },
   },
 }

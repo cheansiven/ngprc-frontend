@@ -18,22 +18,22 @@ const user_roles = {
   ],
   Presenter: [
     { subject: 'Auth', actions: ['read'] },
-    { subject: 'PrivateForum', actions: ['read', 'add', 'update', 'void'] },
-    { subject: 'PrivateForumComment', actions: ['read', 'add', 'update', 'void'] },
+    { subject: 'OwnForum', actions: ['read', 'add', 'update', 'void'] },
+    { subject: 'OwnComment', actions: ['read', 'add', 'update', 'void'] },
   ],
   Approved: [
     { subject: 'Auth', actions: ['read'] },
-    { subject: 'PrivateForum', actions: ['read', 'add', 'update', 'void'] },
-    { subject: 'PrivateForumComment', actions: ['read', 'add', 'update', 'void'] },
-    { subject: 'PrivatePresentation', actions: ['read', 'add', 'update', 'void'] },
+    { subject: 'OwnForum', actions: ['read', 'add', 'update', 'void'] },
+    { subject: 'OwnComment', actions: ['read', 'add', 'update', 'void'] },
+    { subject: 'OwnPresentation', actions: ['read', 'add', 'update', 'void'] },
   ],
   SpecialGuest: [
     { subject: 'Auth', actions: ['read'] },
-    { subject: 'PrivateForum', actions: ['read', 'add', 'update', 'void'] },
+    { subject: 'OwnForum', actions: ['read', 'add', 'update', 'void'] },
   ],
   Moderator: [
     { subject: 'Auth', actions: ['read'] },
-    { subject: 'PrivateForum', actions: ['read', 'add', 'update', 'void'] },
+    { subject: 'OwnForum', actions: ['read', 'add', 'update', 'void'] },
     { subject: 'ForumSection', actions: ['read', 'add', 'update', 'void'] }, // Forum's Category
     { subject: 'Forum', actions: ['read', 'add', 'update', 'void'] },
   ],

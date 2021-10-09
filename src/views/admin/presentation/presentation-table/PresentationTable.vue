@@ -5,8 +5,8 @@
         <b-card-code
           :title="$props.title"
           :disable_code="true"
-          right_button_title="New Presentation"
-          @right_button_click="isPresentationHandlerSidebarActive=true"
+          :right_button_title="canUpdate ? 'New Presentation' : ''"
+          @right_button_click="loadAddModal"
         >
           <!-- search input -->
           <div class="custom-search d-flex justify-content-end">
@@ -44,6 +44,7 @@
               enabled: true,
               perPage:pageLength
             }"
+            :key="randKey"
           >
             <template
               slot="table-row"
@@ -52,7 +53,7 @@
 
               <!-- Column: Action -->
               <span v-if="props.column.field === 'action'">
-                <span>
+                <span v-if="canUpdate">
                   <b-dropdown
                     variant="link"
                     toggle-class="text-decoration-none"
@@ -65,7 +66,7 @@
                         class="text-body align-middle mr-25"
                       />
                     </template>
-                    <b-dropdown-item>
+                    <b-dropdown-item  @click="loadEditModal(props.row.id)">
                       <feather-icon
                         icon="Edit2Icon"
                         class="mr-50"
@@ -81,6 +82,10 @@
                     </b-dropdown-item>
                   </b-dropdown>
                 </span>
+              </span>
+
+              <span v-else-if="props.column.field == 'active'">
+                {{ statusString(props.row.active) }}
               </span>
 
               <!-- Column: Common -->
@@ -142,7 +147,8 @@
     </b-row>
     <presentation-handler
       :visible="isPresentationHandlerSidebarActive"
-      @update:modal="updateModalState"
+      :presentation="loadedPresentation"
+      @update:modal="addPresentationAndUpdateModalState"
     />
   </div>
 </template>
@@ -155,6 +161,8 @@ import {
 import { VueGoodTable } from 'vue-good-table'
 import store from '@/store/index'
 import PresentationHandler from '@/views/admin/presentation/presentation-handler/PresentationHandler.vue'
+import useJwt from '@/auth/jwt/useJwt'
+import { can } from '@/@core/libs/acl/utils'
 
 export default {
   components: {
@@ -182,28 +190,19 @@ export default {
     const columns = [
       {
         label: 'Proposal Date',
-        field: 'presentation_date',
+        field: 'event_date',
       }, {
         label: 'Title',
-        field: 'presentation_title',
-      }, {
-        label: 'Format',
-        field: 'presentation_format',
-      }, {
-        label: 'Title and Name',
-        field: 'presentation_format',
-      }, {
-        label: 'Short of Title and Name',
-        field: 'short_title_and_name',
-      }, {
-        label: 'Organization',
-        field: 'organization',
-      }, {
-        label: 'Country',
-        field: 'country',
+        field: 'title',
       }, {
         label: 'Author',
-        field: 'author',
+        field: 'author.name',
+      }, {
+        label: 'Status',
+        field: 'active',
+      }, {
+        label: 'Action',
+        field: 'action',
       },
       // {
       //   id: 1,
@@ -219,6 +218,10 @@ export default {
     ]
 
     return {
+      randKey: 0,
+      loadedPresentation: {},
+      canAdd: false,
+      canUpdate: false,
       isPresentationHandlerSidebarActive: false,
       pageLength: 3,
       dir: false,
@@ -240,12 +243,82 @@ export default {
     },
   },
   created() {
-    this.$http.get(`/presentation/${this.$props.data_type}`)
+    this.canAdd = true
+    this.canUpdate = true
+
+    const config = {
+      headers: {
+        Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
+      },
+    }
+    this.$http.get(`/presentation/type/${this.$props.data_type}`, config)
       .then(res => { this.rows = res.data; console.log('res.data ', res.data) })
   },
   methods: {
-    updateModalState(val) {
-      this.isPresentationHandlerSidebarActive = val
+    async addPresentationAndUpdateModalState(val, data) {
+      const config = {
+        headers: {
+          Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
+        },
+      }
+      await this.$http.post('presentation', data, config)
+        .then(response => {
+          if (response.status === 200) {
+            if (!response.data.error) {
+              if (response.data.update) {
+                response.data.updated_data.id
+                let current_index = -1
+                this.rows.forEach((el, index) => {
+                  if (el.id === response.data.updated_data.id) current_index = index
+                })
+                if (current_index !== -1) {
+                  this.rows[current_index] = response.data.updated_data
+                }
+              }else{
+                this.rows.push(response.data)
+              }
+              this.randKey = Math.floor(Math.random() * 9999)
+            }
+          }
+          return true
+        })
+        .catch(error => {
+          console.log(error)
+          return false
+        })
+       this.isPresentationHandlerSidebarActive = val
+    },
+    async loadEditModal(id) {
+      const config = {
+        headers: {
+          Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
+        },
+      }
+      this.$http.get(`/presentation/${id}`, config)
+        .then(res => {
+          if (res.status === 200) {
+            if (!res.data.error) {
+              this.loadedPresentation = res.data
+              this.isPresentationHandlerSidebarActive = true
+            }
+          }
+        })
+    },
+    loadAddModal() {
+      this.loadedPresentation = {}
+      this.isPresentationHandlerSidebarActive = true
+    },
+    statusString(active) {
+      switch (active) {
+        case 0:
+          return 'Inactive'
+        case 1:
+          return 'Pending'
+        case 2:
+          return 'Approved'
+        default:
+          return ''
+      }
     },
   },
 }
