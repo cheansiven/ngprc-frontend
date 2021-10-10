@@ -25,6 +25,7 @@
 
           <!-- table -->
           <vue-good-table
+            :key="randKey"
             :columns="columns"
             :rows="rows"
             :rtl="direction"
@@ -44,7 +45,6 @@
               enabled: true,
               perPage:pageLength
             }"
-            :key="randKey"
           >
             <template
               slot="table-row"
@@ -66,7 +66,7 @@
                         class="text-body align-middle mr-25"
                       />
                     </template>
-                    <b-dropdown-item  @click="loadEditModal(props.row.id)">
+                    <b-dropdown-item @click="loadEditModal(props.row.id)">
                       <feather-icon
                         icon="Edit2Icon"
                         class="mr-50"
@@ -81,6 +81,14 @@
                       <span>Delete</span>
                     </b-dropdown-item>
                   </b-dropdown>
+                </span>
+                <span>
+                  <feather-icon
+                    icon="MoreVerticalIcon"
+                    size="16"
+                    class="text-body align-middle mr-25"
+                    @click="viewPresentation(props.row.id)"
+                  />
                 </span>
               </span>
 
@@ -150,33 +158,202 @@
       :presentation="loadedPresentation"
       @update:modal="addPresentationAndUpdateModalState"
     />
+
+    <b-modal
+      id="view-presentation-modal"
+      :visible="showPresentationModal"
+      size="s"
+      no-close-on-backdrop
+      title="Show Presentation"
+    >
+      <b-row>
+        <!-- date time -->
+        <b-col cols="12">
+          <b-form-group
+            label="Time"
+            label-for="vi-event-date"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                id="vi-event-data"
+                :value="loadedPresentation.event_date"
+                type="text"
+                disabled=""
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <!-- Title -->
+        <b-col cols="12">
+          <b-form-group
+            label="Presentation Title"
+            label-for="vi-presentation"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                id="vi-presentation"
+                :value="loadedPresentation.title"
+                type="text"
+                disabled=""
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <!-- Email for the program -->
+        <b-col cols="12">
+          <b-form-group
+            label="Email for the program"
+            label-for="vi-email-for-program"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                id="vi-email-for-program"
+                :value="loadedPresentation.event_email"
+                type="email"
+                disabled
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <!-- Presentation Format -->
+        <b-col cols="12">
+          <b-form-group
+            label="Presentation Format"
+            label-for="vi-presentation-format"
+          >
+            <b-form-radio-group
+              id="vi-presentation-format"
+              v-model="loadedPresentation.format"
+              name="radios-presentation-format"
+              stacked
+            >
+              <b-form-radio
+                v-for="option in presentationFormats"
+                :key="option.id"
+                :value="option.id"
+                disabled
+              >
+                {{ option.name }}
+              </b-form-radio>
+
+            </b-form-radio-group>
+          </b-form-group>
+        </b-col>
+        <!-- Abstract -->
+        <b-col cols="12">
+          <b-form-group
+            label="Abstract"
+            label-for="vi-abstract"
+          >
+            <b-input-group class="input-group-merge">
+              <div v-html="loadedPresentation.abstract" />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <!-- Keywords -->
+        <b-col cols="12">
+          <b-form-group
+            label="Keywords"
+            label-for="vi-keywords"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                id="abstract"
+                :value="loadedPresentation.keywords"
+                disabled
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <!-- Status -->
+        <b-col cols="12">
+          <b-form-group
+            label="Status"
+            label-for="vi-status"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                id="vi-status"
+                :value="statusString(loadedPresentation.active)"
+                disabled
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+      </b-row>
+      <template #modal-footer>
+        <b-row>
+          <b-col cols="12">
+            <b-button
+              right
+              @click="approveAndPrepareEmail"
+            >
+              Approve
+            </b-button>
+          </b-col>
+        </b-row>
+      </template>
+    </b-modal>
+    <b-modal
+      title="Email Template"
+      :visible="showEmailTemplateModal"
+      size="xl"
+      no-close-on-backdrop
+    >
+      <div style="width: 100%;height: 100vh;overflow: scroll">
+        <EmailEditor
+          ref="emailTemplateEditor"
+          @load="emailTemplateEditorLoaded"
+          @ready="emailTemplateEditorReady"
+        />
+      </div>
+      <template #modal-footer>
+        <b-row>
+          <b-col cols="12">
+            <b-button
+              right
+              @click="sendEmail"
+            >
+              Send
+            </b-button>
+          </b-col>
+        </b-row>
+      </template>
+    </b-modal>
   </div>
 </template>
 
 <script>
+import { EmailEditor } from 'vue-email-editor'
+// eslint-disable-next-line import/no-unresolved
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-  BPagination, BFormGroup, BFormInput, BFormSelect, BDropdown, BDropdownItem, BRow, BCol,
+  BPagination, BFormGroup, BFormInput, BFormSelect, BDropdown, BDropdownItem, BRow, BCol, BModal, BFormRadioGroup, BFormRadio, BButton,
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
+import sampleEmailTemplate from '@/@fake-db/data/json/sampleEmailTemplate.json'
 import store from '@/store/index'
 import PresentationHandler from '@/views/admin/presentation/presentation-handler/PresentationHandler.vue'
 import useJwt from '@/auth/jwt/useJwt'
-import { can } from '@/@core/libs/acl/utils'
 
 export default {
   components: {
+    EmailEditor,
     PresentationHandler,
     BCardCode,
     VueGoodTable,
     BRow,
     BCol,
+    BButton,
     BPagination,
     BFormGroup,
     BFormInput,
     BFormSelect,
     BDropdown,
     BDropdownItem,
+    BModal,
+    BFormRadioGroup,
+    BFormRadio,
   },
   props: {
     title: {
@@ -218,6 +395,9 @@ export default {
     ]
 
     return {
+      presentationFormats: [],
+      showPresentationModal: false,
+      showEmailTemplateModal: false,
       randKey: 0,
       loadedPresentation: {},
       canAdd: false,
@@ -246,15 +426,53 @@ export default {
     this.canAdd = true
     this.canUpdate = true
 
+    this.getPresentationFormats()
+
     const config = {
       headers: {
         Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
       },
     }
     this.$http.get(`/presentation/type/${this.$props.data_type}`, config)
-      .then(res => { this.rows = res.data; console.log('res.data ', res.data) })
+      .then(res => {
+        this.rows = res.data
+      }).catch(error => {
+        // console.log(error.response.data.message)
+        // if (error.response.data.message === 'Invalid bearer token') {
+        //   const promise = await useJwt.refreshToken()
+        //   console.log(promise)
+        // }
+      })
   },
   methods: {
+    async emailTemplateEditorLoaded() {
+      console.log('editorLoaded')
+      // Pass the template JSON here
+      this.$refs.emailTemplateEditor.editor.loadDesign(sampleEmailTemplate)
+    },
+    // called when the editor has finished loading
+    emailTemplateEditorReady() {
+      console.log('editorReady')
+    },
+    assignResponseToVariable(response) {
+      if (!response.data.error) {
+        if (response.data.update) {
+          // eslint-disable-next-line camelcase
+          let current_index = -1
+          this.rows.forEach((el, index) => {
+            // eslint-disable-next-line camelcase
+            if (el.id === response.data.updated_data.id) current_index = index
+          })
+          // eslint-disable-next-line camelcase
+          if (current_index !== -1) {
+            this.rows[current_index] = response.data.updated_data
+          }
+        } else {
+          this.rows.push(response.data)
+        }
+        this.randKey = Math.floor(Math.random() * 9999)
+      }
+    },
     async addPresentationAndUpdateModalState(val, data) {
       const config = {
         headers: {
@@ -264,29 +482,14 @@ export default {
       await this.$http.post('presentation', data, config)
         .then(response => {
           if (response.status === 200) {
-            if (!response.data.error) {
-              if (response.data.update) {
-                response.data.updated_data.id
-                let current_index = -1
-                this.rows.forEach((el, index) => {
-                  if (el.id === response.data.updated_data.id) current_index = index
-                })
-                if (current_index !== -1) {
-                  this.rows[current_index] = response.data.updated_data
-                }
-              }else{
-                this.rows.push(response.data)
-              }
-              this.randKey = Math.floor(Math.random() * 9999)
-            }
+            this.assignResponseToVariable(response)
           }
           return true
         })
         .catch(error => {
-          console.log(error)
-          return false
+
         })
-       this.isPresentationHandlerSidebarActive = val
+      this.isPresentationHandlerSidebarActive = val
     },
     async loadEditModal(id) {
       const config = {
@@ -319,6 +522,87 @@ export default {
         default:
           return ''
       }
+    },
+    viewPresentation(id) {
+      const config = {
+        headers: {
+          Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
+        },
+      }
+      this.$http.get(`/presentation/${id}`, config)
+        .then(res => {
+          if (res.status === 200) {
+            if (!res.data.error) {
+              this.loadedPresentation = res.data
+              this.showPresentationModal = true
+            }
+          }
+        })
+    },
+    async getPresentationFormats() {
+      const cjson = localStorage.getItem('presentationFormats')
+      if (!cjson || cjson === null || cjson === '') {
+        const promise = await this.$http.get('presentation-formats')
+        if (promise.status === 200) {
+          if (!promise.data.error) {
+            this.presentationFormats = promise.data
+            localStorage.setItem('presentationFormats', JSON.stringify(this.presentationFormats))
+          }
+        }
+      } else {
+        this.presentationFormats = JSON.parse(cjson)
+      }
+    },
+    approveAndPrepareEmail() {
+      const config = {
+        headers: {
+          Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
+        },
+        params : {
+          id: this.loadedPresentation.id,
+        },
+      }
+
+      this.$http.get(`presentation/${this.loadedPresentation.id}/approve`, config)
+        .then(res => {
+          if (res.status === 200 && !res.data.error) {
+            this.showPresentationModal = false
+            this.showEmailTemplateModal = true
+          }
+          console.log(res)
+        }).catch(error => {
+          console.log('ERROR ')
+          console.log(error)
+        })
+    },
+    sendEmail() {
+      // this.showEmailTemplateModal = false
+      this.$refs.emailTemplateEditor.editor.exportHtml(
+        design => {
+          const { html } = design
+
+          const config = {
+            headers: {
+              Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
+            },
+          }
+          const data = {
+            html,
+            id: this.loadedPresentation.id,
+          }
+          this.$http.post(`mail/presentation/${this.loadedPresentation.id}`, data, config)
+            .then(res => {
+              if (res.status === 200 && !res.data.error) {
+                this.loadedPresentation = {}
+                this.showEmailTemplateModal = false
+              }
+              console.log(res)
+            }).catch(error => {
+              console.log('ERROR ')
+              console.log(error)
+            })
+        },
+      )
     },
   },
 }

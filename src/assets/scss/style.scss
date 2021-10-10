@@ -7,6 +7,10 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 
 @import "front-nav-menu";
 
+.btn[right] {
+  float: right;
+}
+
 .margin-bottom-10>div {
   margin-bottom: 10px;
 }
@@ -123,5 +127,32 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
   padding: 0;
   .transaction-item{
     padding: 5px 0px;
+  }
+}
+
+.unlayer-editor {
+  min-height: unset;
+  height: calc(100% - 40px);
+  iframe {
+    min-width: 100% !important;
+  }
+}
+#view-presentation-modal {
+  .custom-control-input[disabled] ~ .custom-control-label,
+  .custom-control-input:disabled ~ .custom-control-label {
+    color: inherit;
+  }
+  .form-control:disabled, [dir] .form-control[readonly]{
+    background-color: inherit;
+    border-color: inherit;
+    color: #161517;
+  }
+}
+#register-form, #presentation-add-modal {
+  #vi-abstract {
+    .ql-container {
+      height: 167px;
+      overflow: scroll;
+    }
   }
 }

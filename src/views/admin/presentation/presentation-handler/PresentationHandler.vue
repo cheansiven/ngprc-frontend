@@ -1,6 +1,7 @@
 <template>
   <div>
     <b-modal
+      id="presentation-add-modal"
       ref="my-modal"
       hide-footer
       title="Add new Presentation"
@@ -15,17 +16,16 @@
           <b-col cols="12">
             <b-form-group
               label="Time"
-              label-for="vi-time"
+              label-for="vi-event-time"
             >
               <b-input-group class="input-group-merge">
-                <b-button
-                  id="vi-time"
-                  :class="['button-as-text-box',presentationDateTimeClass]"
-                  block
-                  @click="dateTimeShowed = true"
-                >
-                  {{ presentationDateTime }}
-                </b-button>
+
+                <flat-pickr
+                  id="vi-event-time"
+                  v-model="presentationDateTime"
+                  class="form-control"
+                  :config="{ enableTime: true,dateFormat: 'Y-m-d H:i K'}"
+                />
               </b-input-group>
             </b-form-group>
           </b-col>
@@ -89,7 +89,10 @@
             </b-form-group>
           </b-col>
           <!-- Abstract -->
-          <b-col cols="12">
+          <b-col
+            cols="12"
+            style="height: 300px;"
+          >
             <b-form-group
               label="Abstract"
               label-for="vi-abstract"
@@ -98,10 +101,10 @@
                 title="Please put your 300-500 words abstract which will be linked on your CICME profile page"
               />
               <b-input-group class="input-group-merge">
-                <b-form-input
-                  id="abstract"
+                <quill-editor
+                  id="vi-abstract"
                   v-model="abstract"
-                  placeholder="Please put your abstract words"
+                  :options="editorOption"
                 />
               </b-input-group>
             </b-form-group>
@@ -167,10 +170,6 @@
           </b-col>
         </b-row>
       </b-form>
-      <date-time-picker-modal
-        :visible="dateTimeShowed"
-        @update:modal="getSelectedDateTime"
-      />
     </b-modal>
   </div>
 </template>
@@ -194,13 +193,15 @@ import {
   BFormSelect,
   BFormSelectOption,
 } from 'bootstrap-vue'
+import { quillEditor } from 'vue-quill-editor'
+import flatPickr from 'vue-flatpickr-component'
 import LabelSubTitle from '@/components/LabelSubTitle.vue'
-import DateTimePickerModal from '@/components/DateTimePickerModal.vue'
 import useJwt from '@/auth/jwt/useJwt'
 
 export default {
   components: {
-    DateTimePickerModal,
+    flatPickr,
+    quillEditor,
     LabelSubTitle,
     BModal,
     BRow,
@@ -237,8 +238,6 @@ export default {
         { key: 3, name: 'Approved' },
       ],
       presentationId: false,
-      dateTimeShowed: false,
-      presentationDateTimeClass: '',
       // presentation
       presentationDateTime: 'Presentation time',
       presentationTitle: '',
@@ -264,13 +263,7 @@ export default {
           this.keywords = nVal.keywords.split(',')
           this.abstract = nVal.abstract
           this.active = nVal.active ?? '1'
-          this.presentationDateTime = nVal.event_date ?? 'Presentation time'
-
-          if (this.presentationDateTime !== '' || this.presentationDateTime !== 'Presentation time') {
-            this.presentationDateTimeClass = 'is-has-text'
-          } else {
-            this.presentationDateTimeClass = ''
-          }
+          this.presentationDateTime = nVal.event_date ?? ''
         } else {
           this.presentationId = false
           this.presentationTitle = ''
@@ -279,9 +272,7 @@ export default {
           this.keywords = []
           this.abstract = ''
           this.active = '0'
-
-          this.presentationDateTime = 'Presentation time'
-          this.presentationDateTimeClass = ''
+          this.presentationDateTime = ''
         }
       }
     },
@@ -318,20 +309,6 @@ export default {
         this.countries = JSON.parse(cjson)
       }
     },
-    getSelectedDateTime(showed, value) {
-      console.log('getSelectedDateTime ', `--${value}--`)
-      this.dateTimeShowed = showed
-      this.presentationDateTime = value ?? 'Presentation time'
-
-      if (this.presentationDateTime !== '' || this.presentationDateTime !== 'Presentation time') {
-        this.presentationDateTimeClass = 'is-has-text'
-      } else {
-        this.presentationDateTimeClass = ''
-      }
-      // if (this.presentationDateTime === '' || !this.presentationDateTime || this.presentationDateTime == null) {
-      //   this.presentationDateTime = 'Presentation time'
-      // }
-    },
     async onSubmit() {
       const data = {
         id: this.presentationId,
@@ -346,10 +323,40 @@ export default {
       this.$emit('update:modal', false, data)
     },
   },
+  // eslint-disable-next-line no-unused-vars
+  setup(_, { emit }) {
+    const editorOption = {
+      modules: {
+        toolbar: [
+          // ['bold', 'italic', 'underline', 'strike'],
+          ['bold', 'italic', 'underline'],
+          // ['blockquote', 'code-block'],
+          [{ header: 1 }, { header: 2 }],
+          // [{ list: 'ordered' }, { list: 'bullet' }],
+          // [{ script: 'sub' }, { script: 'super' }],
+          // [{ indent: '-1' }, { indent: '+1' }],
+          [{ direction: 'rtl' }],
+          [{ size: ['small', !1, 'large', 'huge'] }],
+          // [{ header: [1, 2, 3, 4, 5, 6, !1] }],
+          // [{ color: [] }, { background: [] }],
+          [{ color: [] }],
+          [{ font: [] }],
+          [{ align: [] }],
+          // ['clean'],
+          // ['link', 'image', 'video'],
+        ],
+      },
+      placeholder: 'Please put your 300-500 words abstract which will be linked on your CICME profile page',
+    }
+
+    return {
+      editorOption,
+    }
+  },
 }
 </script>
 
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
-@import '@core/scss/vue/libs/vue-flatpicker.scss';
+@import '@core/scss/vue/libs/quill.scss';
 </style>

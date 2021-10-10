@@ -1,5 +1,8 @@
 <template>
-  <div class="auth-wrapper auth-v2">
+  <div
+    id="register-form"
+    class="auth-wrapper auth-v2"
+  >
     <b-row class="auth-inner m-0">
 
       <!-- Brand logo-->
@@ -146,17 +149,15 @@
                 <b-col cols="12">
                   <b-form-group
                     label="Time"
-                    label-for="vi-time"
+                    label-for="vi-event-time"
                   >
                     <b-input-group class="input-group-merge">
-                      <b-button
-                        id="vi-time"
-                        :class="['button-as-text-box',presentationDateTimeClass]"
-                        block
-                        @click="dateTimeShowed = true"
-                      >
-                        {{ presentationDateTime }}
-                      </b-button>
+                      <flat-pickr
+                          id="vi-event-time"
+                          v-model="presentationDateTime"
+                          class="form-control"
+                          :config="{ enableTime: true,dateFormat: 'Y-m-d H:i K'}"
+                      />
                     </b-input-group>
                   </b-form-group>
                 </b-col>
@@ -190,9 +191,9 @@
                       stacked
                     >
                       <b-form-radio
-                          v-for="option in presentationFormats"
-                          :key="option.id"
-                          :value="option.id"
+                        v-for="option in presentationFormats"
+                        :key="option.id"
+                        :value="option.id"
                       >
                         {{ option.name }}
                       </b-form-radio>
@@ -201,7 +202,10 @@
                   </b-form-group>
                 </b-col>
                 <!-- Abstract -->
-                <b-col cols="12">
+                <b-col
+                  cols="12"
+                  style="height:350px"
+                >
                   <b-form-group
                     label="Abstract"
                     label-for="vi-abstract"
@@ -210,10 +214,10 @@
                       title="Please put your 300-500 words abstract which will be linked on your CICME profile page"
                     />
                     <b-input-group class="input-group-merge">
-                      <b-form-input
-                        id="abstract"
-                        placeholder="Please put your abstract words"
+                      <quill-editor
+                        id="vi-abstract"
                         v-model="abstract"
+                        :options="editorOption"
                       />
                     </b-input-group>
                   </b-form-group>
@@ -510,10 +514,6 @@
       </b-col>
       <!-- /Register-->
     </b-row>
-    <date-time-picker-modal
-      :visible="dateTimeShowed"
-      @update:modal="getSelectedDateTime"
-    />
   </div>
 </template>
 
@@ -521,6 +521,8 @@
 /* eslint-disable global-require */
 import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import SiteLogo from '@core/layouts/components/Logo.vue'
+import { quillEditor } from 'vue-quill-editor'
+import flatPickr from 'vue-flatpickr-component'
 import {
   BRow,
   BCol,
@@ -544,15 +546,15 @@ import {
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
+import ToastificationContent from '@core/components/toastification/ToastificationContent'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
 import LabelSubTitle from '@/components/LabelSubTitle.vue'
-import DateTimePickerModal from '@/components/DateTimePickerModal.vue'
-import ToastificationContent from '@core/components/toastification/ToastificationContent'
 
 export default {
   components: {
-    DateTimePickerModal,
+    quillEditor,
+    flatPickr,
     LabelSubTitle,
     SiteLogo,
     BRow,
@@ -584,7 +586,7 @@ export default {
       dateTimeShowed: false,
       presentationDateTimeClass: '',
       // presentation
-      presentationDateTime: 'Presentation time',
+      presentationDateTime: null,
       presentationTitle: '',
       presentationFormat: {},
       presentationFormats: [],
@@ -662,7 +664,7 @@ export default {
           format: this.presentationFormat,
         })
       }
-      //console.log(params);return;
+      // console.log(params);return;
       this.$refs.registerForm.validate()
         .then(success => {
           if (success) {
@@ -722,16 +724,6 @@ export default {
         this.countries = JSON.parse(cjson)
       }
     },
-    getSelectedDateTime(showed, value) {
-      this.dateTimeShowed = showed
-      this.presentationDateTime = value
-
-      if (this.presentationDateTime !== '' || this.presentationDateTime !== 'Presentation time') {
-        this.presentationDateTimeClass = 'is-has-text'
-      } else {
-        this.presentationDateTimeClass = ''
-      }
-    },
     async getTimezones() {
       const cjson = localStorage.getItem('timezones')
       if (!cjson || cjson === null || cjson === '') {
@@ -748,10 +740,42 @@ export default {
       }
     },
   },
+  // eslint-disable-next-line no-unused-vars
+  setup(_, { emit }) {
+    const editorOption = {
+      modules: {
+        toolbar: [
+          // ['bold', 'italic', 'underline', 'strike'],
+          ['bold', 'italic', 'underline'],
+          // ['blockquote', 'code-block'],
+          [{ header: 1 }, { header: 2 }],
+          // [{ list: 'ordered' }, { list: 'bullet' }],
+          // [{ script: 'sub' }, { script: 'super' }],
+          // [{ indent: '-1' }, { indent: '+1' }],
+          [{ direction: 'rtl' }],
+          [{ size: ['small', !1, 'large', 'huge'] }],
+          // [{ header: [1, 2, 3, 4, 5, 6, !1] }],
+          // [{ color: [] }, { background: [] }],
+          [{ color: [] }],
+          [{ font: [] }],
+          [{ align: [] }],
+          // ['clean'],
+          // ['link', 'image', 'video'],
+        ],
+      },
+      placeholder: 'Please put your 300-500 words abstract which will be linked on your CICME profile page',
+    }
+
+    return {
+      editorOption,
+    }
+  },
 }
 /* eslint-disable global-require */
 </script>
 
 <style lang="scss">
 @import '@core/scss/vue/pages/page-auth.scss';
+@import '@core/scss/vue/libs/quill.scss';
+@import '@core/scss/vue/libs/vue-flatpicker.scss';
 </style>
