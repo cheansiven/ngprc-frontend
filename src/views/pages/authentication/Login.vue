@@ -253,6 +253,7 @@ export default {
   mixins: [togglePasswordVisibility],
   data() {
     return {
+      appLoading: false,
       status: '',
       password: 'admin',
       userEmail: 'admin@demo.com',
@@ -262,6 +263,9 @@ export default {
       required,
       email,
     }
+  },
+  created() {
+    this.appLoading = document.getElementById('loading-bg')
   },
   computed: {
     passwordToggleIcon() {
@@ -279,6 +283,9 @@ export default {
   methods: {
     login() {
       this.$refs.loginForm.validate().then(success => {
+        if (this.appLoading) {
+          this.appLoading.style.display = 'block'
+        }
         if (success) {
           useJwt.login({
             email: this.userEmail,
@@ -297,6 +304,9 @@ export default {
                     text: response.data.message,
                   },
                 })
+                if (this.appLoading) {
+                  this.appLoading.style.display = 'none'
+                }
                 return
               }
               // console.log('login()', response.data)

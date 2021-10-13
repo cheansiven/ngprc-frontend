@@ -32,11 +32,9 @@ import '@/libs/tour'
 Vue.prototype.$http = Axios
 Vue.prototype.$cookies = VueCookies
 Axios.defaults.baseURL = process.env.VUE_APP_API_URL
-Axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*'
-Axios.defaults.headers.get['Access-Control-Allow-Methods'] = 'GET, PUT, POST, DELETE, OPTIONS, post, get'
-Axios.defaults.headers.get['Access-Control-Max-Age'] = '3600'
-Axios.defaults.headers.get['Access-Control-Allow-Headers'] = 'Origin, Content-Type, X-Auth-Token'
-Axios.defaults.headers.get['Access-Control-Allow-Credentials'] = 'true'
+Axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+Axios.defaults.headers.common['Access-Control-Allow-Methods'] = 'GET, POST, PATCH, PUT, DELETE, OPTIONS'
+Axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'Origin, Content-Type, X-Auth-Token'
 // ------------------------------------------------
 
 // BSV Plugin Registration

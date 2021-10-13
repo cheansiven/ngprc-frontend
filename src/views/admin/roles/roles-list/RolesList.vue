@@ -39,6 +39,7 @@ import {
   BCard, BTable, BCardBody, BCardTitle, BCardSubTitle, BFormCheckbox, BRow, BCol,
 } from 'bootstrap-vue'
 import Vue from 'vue'
+import useJwt from '@/auth/jwt/useJwt'
 
 export default {
   components: {
@@ -50,7 +51,7 @@ export default {
     }
   },
   created() {
-    this.$http.get('/user-role')
+    useJwt.axiosIns.get('/user-role')
       .then(res => {
         const roles = res.data
         Vue.delete(roles, 'system_admin')

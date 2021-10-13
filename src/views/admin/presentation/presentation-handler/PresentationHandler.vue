@@ -19,7 +19,6 @@
               label-for="vi-event-time"
             >
               <b-input-group class="input-group-merge">
-
                 <flat-pickr
                   id="vi-event-time"
                   v-model="presentationDateTime"
@@ -169,6 +168,13 @@
             </b-button>
           </b-col>
         </b-row>
+        <div
+          v-if="$props.loading"
+          id="presentation-spinner"
+          class="spinner-in-modal"
+        >
+          <b-spinner />
+        </div>
       </b-form>
     </b-modal>
   </div>
@@ -192,6 +198,7 @@ import {
   BFormTags,
   BFormSelect,
   BFormSelectOption,
+  BSpinner,
 } from 'bootstrap-vue'
 import { quillEditor } from 'vue-quill-editor'
 import flatPickr from 'vue-flatpickr-component'
@@ -200,6 +207,7 @@ import useJwt from '@/auth/jwt/useJwt'
 
 export default {
   components: {
+    BSpinner,
     flatPickr,
     quillEditor,
     LabelSubTitle,
@@ -228,9 +236,14 @@ export default {
     presentation: {
       type: Object,
     },
+    loading: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
+      spinner: false,
       status_options: [
         { key: 0, name: 'Inactive' },
         { key: 1, name: 'Pending' },
@@ -276,10 +289,22 @@ export default {
         }
       }
     },
+    loading(nVal, oVal) {
+      if (nVal !== oVal) {
+        if (this.spinner) {
+          if (nVal) {
+            this.spinner.style.display = 'block'
+          } else {
+            this.spinner.style.display = 'non'
+          }
+        }
+      }
+    },
   },
   created() {
     this.getPresentationFormats()
     this.getAllCountries()
+    this.spinner = document.getElementById('presentation-spinner')
   },
   methods: {
     async getPresentationFormats() {
@@ -359,4 +384,5 @@ export default {
 <style lang="scss">
 @import '@core/scss/vue/libs/vue-select.scss';
 @import '@core/scss/vue/libs/quill.scss';
+@import '@core/scss/vue/libs/vue-flatpicker.scss';
 </style>

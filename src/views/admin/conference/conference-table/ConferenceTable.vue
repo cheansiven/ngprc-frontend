@@ -144,6 +144,7 @@ import {
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import store from '@/store/index'
+import useJwt from '@/auth/jwt/useJwt'
 
 export default {
   components: {
@@ -205,7 +206,7 @@ export default {
     },
   },
   created() {
-    this.$http.get(`/conference/${this.$props.data_type}`)
+    useJwt.axiosIns.get(`/conference/${this.$props.data_type}`)
       .then(res => { this.rows = res.data; console.log('res.data ', res.data) })
   },
 }

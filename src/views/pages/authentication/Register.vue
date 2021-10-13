@@ -404,7 +404,7 @@
                         id="vi-timezone"
                         v-model="timezone"
                         type="text"
-                        placeholder="Entry your position"
+                        placeholder="Entry your timezone"
                       />
                     </b-input-group>
                   </b-form-group>
@@ -583,6 +583,7 @@ export default {
   mixins: [togglePasswordVisibility],
   data() {
     return {
+      appLoading:false,
       dateTimeShowed: false,
       presentationDateTimeClass: '',
       // presentation
@@ -634,9 +635,13 @@ export default {
   created() {
     this.getPresentationFormats()
     this.getAllCountries()
+    this.appLoading = document.getElementById('loading-bg')
   },
   methods: {
     register() {
+      if (this.appLoading) {
+        this.appLoading.style.display = 'block'
+      }
       const params = {
         username: this.username,
         email: this.userEmail,
@@ -681,6 +686,9 @@ export default {
                       text: response.data.message,
                     },
                   })
+                  if (this.appLoading) {
+                    this.appLoading.style.display = 'none'
+                  }
                   return
                 }
                 useJwt.setToken(response.data.accessToken)

@@ -82,12 +82,11 @@
                     </b-dropdown-item>
                   </b-dropdown>
                 </span>
-                <span>
+                <span class="clickable" @click="viewPresentation(props.row.id)">
                   <feather-icon
-                    icon="MoreVerticalIcon"
+                    icon="EyeIcon"
                     size="16"
                     class="text-body align-middle mr-25"
-                    @click="viewPresentation(props.row.id)"
                   />
                 </span>
               </span>
@@ -156,6 +155,7 @@
     <presentation-handler
       :visible="isPresentationHandlerSidebarActive"
       :presentation="loadedPresentation"
+      :loading="saving"
       @update:modal="addPresentationAndUpdateModalState"
     />
 
@@ -165,6 +165,7 @@
       size="s"
       no-close-on-backdrop
       title="Show Presentation"
+      @close="showPresentationModal=false"
     >
       <b-row>
         <!-- date time -->
@@ -299,6 +300,7 @@
       :visible="showEmailTemplateModal"
       size="xl"
       no-close-on-backdrop
+      @close="showEmailTemplateModal = false"
     >
       <div style="width: 100%;height: 100vh;overflow: scroll">
         <EmailEditor
@@ -306,6 +308,13 @@
           @load="emailTemplateEditorLoaded"
           @ready="emailTemplateEditorReady"
         />
+        <div
+            v-if="mailSending"
+            id="presentation-spinner"
+            class="spinner-in-modal"
+        >
+          <b-spinner />
+        </div>
       </div>
       <template #modal-footer>
         <b-row>
@@ -328,7 +337,7 @@ import { EmailEditor } from 'vue-email-editor'
 // eslint-disable-next-line import/no-unresolved
 import BCardCode from '@core/components/b-card-code/BCardCode.vue'
 import {
-  BPagination, BFormGroup, BFormInput, BFormSelect, BDropdown, BDropdownItem, BRow, BCol, BModal, BFormRadioGroup, BFormRadio, BButton,
+  BPagination, BFormGroup, BFormInput, BFormSelect, BDropdown, BDropdownItem, BRow, BCol, BModal, BFormRadioGroup, BFormRadio, BButton, BSpinner,
 } from 'bootstrap-vue'
 import { VueGoodTable } from 'vue-good-table'
 import sampleEmailTemplate from '@/@fake-db/data/json/sampleEmailTemplate.json'
@@ -354,6 +363,7 @@ export default {
     BModal,
     BFormRadioGroup,
     BFormRadio,
+    BSpinner,
   },
   props: {
     title: {
@@ -395,6 +405,9 @@ export default {
     ]
 
     return {
+      mailSending: false,
+      saving: false,
+      appLoading: false,
       presentationFormats: [],
       showPresentationModal: false,
       showEmailTemplateModal: false,
@@ -426,7 +439,13 @@ export default {
     this.canAdd = true
     this.canUpdate = true
 
+    this.appLoading = document.getElementById('loading-bg')
+
     this.getPresentationFormats()
+
+    if (this.appLoading) {
+      this.appLoading.style.display = 'block'
+    }
 
     const config = {
       headers: {
@@ -436,12 +455,18 @@ export default {
     this.$http.get(`/presentation/type/${this.$props.data_type}`, config)
       .then(res => {
         this.rows = res.data
-      }).catch(error => {
+        if (this.appLoading) {
+          this.appLoading.style.display = 'none'
+        }
+      }).catch( () => {
         // console.log(error.response.data.message)
         // if (error.response.data.message === 'Invalid bearer token') {
         //   const promise = await useJwt.refreshToken()
         //   console.log(promise)
         // }
+        if (this.appLoading) {
+          this.appLoading.style.display = 'none'
+        }
       })
   },
   methods: {
@@ -473,13 +498,9 @@ export default {
         this.randKey = Math.floor(Math.random() * 9999)
       }
     },
-    async addPresentationAndUpdateModalState(val, data) {
-      const config = {
-        headers: {
-          Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
-        },
-      }
-      await this.$http.post('presentation', data, config)
+    async addPresentationAndUpdateModalState(status, data) {
+      this.saving = true
+      await useJwt.axiosIns.post('presentation', data)
         .then(response => {
           if (response.status === 200) {
             this.assignResponseToVariable(response)
@@ -489,15 +510,11 @@ export default {
         .catch(error => {
 
         })
-      this.isPresentationHandlerSidebarActive = val
+      this.saving = false
+      this.isPresentationHandlerSidebarActive = false
     },
     async loadEditModal(id) {
-      const config = {
-        headers: {
-          Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
-        },
-      }
-      this.$http.get(`/presentation/${id}`, config)
+      useJwt.axiosIns.get(`/presentation/${id}`)
         .then(res => {
           if (res.status === 200) {
             if (!res.data.error) {
@@ -524,12 +541,7 @@ export default {
       }
     },
     viewPresentation(id) {
-      const config = {
-        headers: {
-          Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
-        },
-      }
-      this.$http.get(`/presentation/${id}`, config)
+      useJwt.axiosIns.get(`/presentation/${id}`)
         .then(res => {
           if (res.status === 200) {
             if (!res.data.error) {
@@ -554,16 +566,7 @@ export default {
       }
     },
     approveAndPrepareEmail() {
-      const config = {
-        headers: {
-          Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
-        },
-        params : {
-          id: this.loadedPresentation.id,
-        },
-      }
-
-      this.$http.get(`presentation/${this.loadedPresentation.id}/approve`, config)
+      useJwt.axiosIns.get(`presentation/${this.loadedPresentation.id}/approve`)
         .then(res => {
           if (res.status === 200 && !res.data.error) {
             this.showPresentationModal = false
@@ -577,29 +580,28 @@ export default {
     },
     sendEmail() {
       // this.showEmailTemplateModal = false
+      this.mailSending = true
       this.$refs.emailTemplateEditor.editor.exportHtml(
         design => {
           const { html } = design
 
-          const config = {
-            headers: {
-              Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
-            },
-          }
           const data = {
             html,
             id: this.loadedPresentation.id,
           }
-          this.$http.post(`mail/presentation/${this.loadedPresentation.id}`, data, config)
+
+          useJwt.axiosIns.post(`mail/presentation/${this.loadedPresentation.id}`, data)
             .then(res => {
               if (res.status === 200 && !res.data.error) {
                 this.loadedPresentation = {}
                 this.showEmailTemplateModal = false
               }
+              this.mailSending = false
               console.log(res)
             }).catch(error => {
               console.log('ERROR ')
               console.log(error)
+              this.mailSending = false
             })
         },
       )
