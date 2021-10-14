@@ -447,12 +447,7 @@ export default {
       this.appLoading.style.display = 'block'
     }
 
-    const config = {
-      headers: {
-        Authorization: `${useJwt.jwtConfig.tokenType} ${useJwt.getToken()}`,
-      },
-    }
-    this.$http.get(`/presentation/type/${this.$props.data_type}`, config)
+    useJwt.axiosIns.get(`/presentation/type/${this.$props.data_type}`)
       .then(res => {
         this.rows = res.data
         if (this.appLoading) {
@@ -554,7 +549,7 @@ export default {
     async getPresentationFormats() {
       const cjson = localStorage.getItem('presentationFormats')
       if (!cjson || cjson === null || cjson === '') {
-        const promise = await this.$http.get('presentation-formats')
+        const promise = await useJwt.axiosIns.get('presentation-formats')
         if (promise.status === 200) {
           if (!promise.data.error) {
             this.presentationFormats = promise.data
