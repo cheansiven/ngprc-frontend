@@ -275,7 +275,7 @@ export default {
           this.emailForProgram = nVal.event_email
           this.keywords = nVal.keywords.split(',')
           this.abstract = nVal.abstract
-          this.active = nVal.active ?? '1'
+          this.status = nVal.status ?? '1'
           this.presentationDateTime = nVal.event_date ?? ''
         } else {
           this.presentationId = false
@@ -284,7 +284,7 @@ export default {
           this.emailForProgram = ''
           this.keywords = []
           this.abstract = ''
-          this.active = '0'
+          this.status = '0'
           this.presentationDateTime = ''
         }
       }
@@ -343,7 +343,7 @@ export default {
         keywords: this.keywords,
         abstract: this.abstract,
         format: this.presentationFormat,
-        active: this.active,
+        active: this.status,
       }
       this.$emit('update:modal', false, data)
     },

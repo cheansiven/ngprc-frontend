@@ -82,7 +82,10 @@
                     </b-dropdown-item>
                   </b-dropdown>
                 </span>
-                <span class="clickable" @click="viewPresentation(props.row.id)">
+                <span
+                  class="clickable"
+                  @click="viewPresentation(props.row.id)"
+                >
                   <feather-icon
                     icon="EyeIcon"
                     size="16"
@@ -92,7 +95,7 @@
               </span>
 
               <span v-else-if="props.column.field == 'active'">
-                {{ statusString(props.row.active) }}
+                {{ statusString(props.row.status) }}
               </span>
 
               <!-- Column: Common -->
@@ -153,7 +156,7 @@
       </b-col>
     </b-row>
     <presentation-handler
-      :visible="isPresentationHandlerSidebarActive"
+      :visible="isPresentationAddModalSidebarActive"
       :presentation="loadedPresentation"
       :loading="saving"
       @update:modal="addPresentationAndUpdateModalState"
@@ -164,22 +167,141 @@
       :visible="showPresentationModal"
       size="s"
       no-close-on-backdrop
-      title="Show Presentation"
+      title="Presentation viewer"
       @close="showPresentationModal=false"
     >
       <b-row>
-        <!-- date time -->
-        <b-col cols="12">
+        <b-col cols="12" class="form-group">
+          <strong>Presenter Information</strong>
+        </b-col>
+        <!-- Name -->
+        <b-col v-if="loadedPresentation['author']" cols="12">
           <b-form-group
-            label="Time"
-            label-for="vi-event-date"
+              label="Name"
+              label-for="vi-name"
           >
             <b-input-group class="input-group-merge">
               <b-form-input
-                id="vi-event-data"
-                :value="loadedPresentation.event_date"
-                type="text"
-                disabled=""
+                  id="vi-name"
+                  :value="loadedPresentation.author.name"
+                  type="text"
+                  disabled=""
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <!-- Shot Name -->
+        <b-col v-if="loadedPresentation['author']" cols="12">
+          <b-form-group
+              label="Short Name"
+              label-for="vi-short-name"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                  id="vi-short-name"
+                  :value="loadedPresentation.author.short_name"
+                  type="text"
+                  disabled=""
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <!-- Phone -->
+        <b-col v-if="loadedPresentation['author']" cols="12">
+          <b-form-group
+              label="Phone"
+              label-for="vi-phone"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                  id="vi-phone"
+                  :value="loadedPresentation.author.phone"
+                  type="text"
+                  disabled=""
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <!-- Position -->
+        <b-col v-if="loadedPresentation['author']" cols="12">
+          <b-form-group
+              label="Position"
+              label-for="vi-position"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                  id="vi-position"
+                  :value="loadedPresentation.author.job_position"
+                  type="text"
+                  disabled=""
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <!-- Organization -->
+        <b-col v-if="loadedPresentation['author']" cols="12">
+          <b-form-group
+              label="Organization"
+              label-for="vi-organization"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                  id="vi-organization"
+                  :value="loadedPresentation.author.organization"
+                  type="text"
+                  disabled=""
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <!-- City -->
+        <b-col v-if="loadedPresentation['author']" cols="12">
+          <b-form-group
+              label="City or Country"
+              label-for="vi-city-or-country"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                  id="vi-city-or-country"
+                  :value="loadedPresentation.author.city_or_country"
+                  type="text"
+                  disabled=""
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+        <!-- Timezone -->
+        <b-col v-if="loadedPresentation['author']" cols="12">
+          <b-form-group
+              label="Timezone"
+              label-for="vi-timezone"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                  id="vi-timezone"
+                  :value="loadedPresentation.author.timezone"
+                  type="text"
+                  disabled=""
+              />
+            </b-input-group>
+          </b-form-group>
+        </b-col>
+
+        <b-col cols="12" class="form-group">
+          <strong>Presentation Information</strong>
+        </b-col>
+        <!-- date time -->
+        <b-col cols="12">
+          <b-form-group
+              label="Time"
+              label-for="vi-event-date"
+          >
+            <b-input-group class="input-group-merge">
+              <b-form-input
+                  id="vi-event-data"
+                  :value="loadedPresentation.event_date"
+                  type="text"
+                  disabled=""
               />
             </b-input-group>
           </b-form-group>
@@ -275,21 +397,35 @@
             <b-input-group class="input-group-merge">
               <b-form-input
                 id="vi-status"
-                :value="statusString(loadedPresentation.active)"
+                :value="statusString(loadedPresentation.status)"
                 disabled
               />
             </b-input-group>
           </b-form-group>
         </b-col>
+        <div
+          v-if="approveSubmiting"
+          class="spinner-in-modal"
+        >
+          <b-spinner />
+        </div>
       </b-row>
       <template #modal-footer>
         <b-row>
           <b-col cols="12">
             <b-button
+              v-if="$props.data_type === 'pending'"
               right
               @click="approveAndPrepareEmail"
             >
               Approve
+            </b-button>
+            <b-button
+              v-else
+              right
+              @click="showPresentationModal = false"
+            >
+              Close
             </b-button>
           </b-col>
         </b-row>
@@ -309,9 +445,9 @@
           @ready="emailTemplateEditorReady"
         />
         <div
-            v-if="mailSending"
-            id="presentation-spinner"
-            class="spinner-in-modal"
+          v-if="mailSending"
+          id="presentation-spinner"
+          class="spinner-in-modal"
         >
           <b-spinner />
         </div>
@@ -342,13 +478,13 @@ import {
 import { VueGoodTable } from 'vue-good-table'
 import sampleEmailTemplate from '@/@fake-db/data/json/sampleEmailTemplate.json'
 import store from '@/store/index'
-import PresentationHandler from '@/views/admin/presentation/presentation-handler/PresentationHandler.vue'
+import PresentationAddModal from '@/views/admin/presentation/presentation-handler/PresentationAddModal.vue'
 import useJwt from '@/auth/jwt/useJwt'
 
 export default {
   components: {
     EmailEditor,
-    PresentationHandler,
+    PresentationAddModal,
     BCardCode,
     VueGoodTable,
     BRow,
@@ -405,6 +541,7 @@ export default {
     ]
 
     return {
+      approveSubmiting: false,
       mailSending: false,
       saving: false,
       appLoading: false,
@@ -415,7 +552,7 @@ export default {
       loadedPresentation: {},
       canAdd: false,
       canUpdate: false,
-      isPresentationHandlerSidebarActive: false,
+      isPresentationAddModalSidebarActive: false,
       pageLength: 3,
       dir: false,
       columns,
@@ -453,7 +590,7 @@ export default {
         if (this.appLoading) {
           this.appLoading.style.display = 'none'
         }
-      }).catch( () => {
+      }).catch(() => {
         // console.log(error.response.data.message)
         // if (error.response.data.message === 'Invalid bearer token') {
         //   const promise = await useJwt.refreshToken()
@@ -502,11 +639,11 @@ export default {
           }
           return true
         })
-        .catch(error => {
+        .catch( () => {
 
         })
       this.saving = false
-      this.isPresentationHandlerSidebarActive = false
+      this.isPresentationAddModalSidebarActive = false
     },
     async loadEditModal(id) {
       useJwt.axiosIns.get(`/presentation/${id}`)
@@ -514,14 +651,14 @@ export default {
           if (res.status === 200) {
             if (!res.data.error) {
               this.loadedPresentation = res.data
-              this.isPresentationHandlerSidebarActive = true
+              this.isPresentationAddModalSidebarActive = true
             }
           }
         })
     },
     loadAddModal() {
       this.loadedPresentation = {}
-      this.isPresentationHandlerSidebarActive = true
+      this.isPresentationAddModalSidebarActive = true
     },
     statusString(active) {
       switch (active) {
@@ -561,6 +698,7 @@ export default {
       }
     },
     approveAndPrepareEmail() {
+      this.approveSubmiting = true
       useJwt.axiosIns.get(`presentation/${this.loadedPresentation.id}/approve`)
         .then(res => {
           if (res.status === 200 && !res.data.error) {
@@ -568,9 +706,11 @@ export default {
             this.showEmailTemplateModal = true
           }
           console.log(res)
+          this.approveSubmiting = false
         }).catch(error => {
           console.log('ERROR ')
           console.log(error)
+          this.approveSubmiting = false
         })
     },
     sendEmail() {
@@ -600,6 +740,11 @@ export default {
             })
         },
       )
+    },
+    saveMailTemplate() {
+      this.$refs.emailTemplateEditor.editor.exportHtml(design => {
+        console.log('HTML ', design.html)
+      })
     },
   },
 }

@@ -151,7 +151,16 @@
                     label="Time"
                     label-for="vi-event-time"
                   >
-                    <b-input-group class="input-group-merge">
+                    <validation-provider
+                        #default="{ errors }"
+                        name="Time"
+                        vid="event-time"
+                        rules="required"
+                    >
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
+                      >
                       <flat-pickr
                           id="vi-event-time"
                           v-model="presentationDateTime"
@@ -159,6 +168,7 @@
                           :config="{ enableTime: true,dateFormat: 'Y-m-d H:i K'}"
                       />
                     </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
                 <!-- Title -->
@@ -168,7 +178,17 @@
                     label-for="vi-presentation"
                   >
                     <label-sub-title title="Enter the title of your talk, workshop, or research topic." />
-                    <b-input-group class="input-group-merge">
+
+                    <validation-provider
+                        #default="{ errors }"
+                        name="Presentation Title"
+                        vid="presentation"
+                        rules="required"
+                    >
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
+                      >
                       <b-form-input
                         id="vi-presentation"
                         v-model="presentationTitle"
@@ -176,6 +196,7 @@
                         placeholder="Enter the title of your talk, workshop, or research topic."
                       />
                     </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
                 <!-- Presentation Format -->
@@ -184,21 +205,32 @@
                     label="Presentation Format"
                     label-for="vi-presentation-format"
                   >
-                    <b-form-radio-group
-                      id="vi-presentation-format"
-                      v-model="presentationFormat"
-                      name="radios-presentation-format"
-                      stacked
+                    <validation-provider
+                        #default="{ errors }"
+                        name="Presentation Format"
+                        vid="presentation-format"
+                        rules="required"
                     >
-                      <b-form-radio
-                        v-for="option in presentationFormats"
-                        :key="option.id"
-                        :value="option.id"
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
                       >
-                        {{ option.name }}
-                      </b-form-radio>
-
-                    </b-form-radio-group>
+                          <b-form-radio-group
+                            id="vi-presentation-format"
+                            v-model="presentationFormat"
+                            name="radios-presentation-format"
+                            stacked
+                          >
+                            <b-form-radio
+                              v-for="option in presentationFormats"
+                              :key="option.id"
+                              :value="option.id"
+                            >
+                              {{ option.name }}
+                            </b-form-radio>
+                          </b-form-radio-group>
+                      </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
                 <!-- Abstract -->
@@ -213,13 +245,23 @@
                     <label-sub-title
                       title="Please put your 300-500 words abstract which will be linked on your CICME profile page"
                     />
-                    <b-input-group class="input-group-merge">
+                    <validation-provider
+                        #default="{ errors }"
+                        name="Abstract"
+                        vid="abstract"
+                        rules="required"
+                    >
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
+                      >
                       <quill-editor
                         id="vi-abstract"
                         v-model="abstract"
                         :options="editorOption"
                       />
                     </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
                 <!-- Keywords -->
@@ -231,13 +273,23 @@
                     <label-sub-title
                       title="Please provide a few keywords (e.g. school-based mentoring, teacher professional development, …)"
                     />
-                    <b-input-group class="input-group-merge">
+                    <validation-provider
+                        #default="{ errors }"
+                        name="Keyword"
+                        vid="keywords"
+                        rules="required"
+                    >
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
+                      >
                       <b-form-tags
                         v-model="keywords"
                         input-id="vi-keywords"
                         placeholder="Add your keywords"
                       />
                     </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
 
@@ -247,13 +299,22 @@
                 <!-- Title and Name -->
                 <b-col cols="12">
                   <b-form-group
-                    label="Title and Name"
+                    label="Title and Name *"
                     label-for="vi-title-and-name"
                   >
                     <label-sub-title
                       title="For use in official announcements, please provide your full title (e.g. Prof. Jean-François Maheux, Dr. Sun Somara)"
                     />
-                    <b-input-group class="input-group-merge">
+                    <validation-provider
+                        #default="{ errors }"
+                        name="Title and Name"
+                        vid="title-and-name"
+                        rules="required"
+                    >
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
+                      >
                       <b-form-input
                         id="vi-title-and-name"
                         v-model="titleAndName"
@@ -261,18 +322,28 @@
                         placeholder="Entry your name and title"
                       />
                     </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
                 <!-- Shorter version of title and name -->
                 <b-col cols="12">
                   <b-form-group
-                    label="Shorter version of title and name"
+                    label="Shorter version of title and name *"
                     label-for="vi-short-version-of-title-and-name"
                   >
                     <label-sub-title
                       title="The shorter version that we will use during discussion (e.g. Prof. Maheux)."
                     />
-                    <b-input-group class="input-group-merge">
+                    <validation-provider
+                        #default="{ errors }"
+                        name="Short of Title and Name"
+                        vid="short-version-of-title-and-name"
+                        rules="required"
+                    >
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
+                      >
                       <b-form-input
                         id="vi-short-version-of-title-and-name"
                         v-model="shortOfTitleAndName"
@@ -280,18 +351,28 @@
                         placeholder="Entry your name and title"
                       />
                     </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
                 <!-- Email for the program -->
                 <b-col cols="12">
                   <b-form-group
-                    label="Email for the program"
+                    label="Email for the program *"
                     label-for="vi-email-for-program"
                   >
                     <label-sub-title
                       title="Please specify the email address you like us to print on the conference program and on the website. It can be the same email you provided above (which we will use to contact you in relation with your submission), or a different one (e.g. official institutional email)."
                     />
-                    <b-input-group class="input-group-merge">
+                    <validation-provider
+                        #default="{ errors }"
+                        name="Program Email"
+                        vid="email-for-program"
+                        rules="required"
+                    >
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
+                      >
                       <b-form-input
                         id="vi-email-for-program"
                         v-model="emailForProgram"
@@ -299,6 +380,7 @@
                         placeholder="Entry Program's email"
                       />
                     </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
                 <!-- Phone (optional) -->
@@ -327,7 +409,16 @@
                     <label-sub-title
                       title="Please provide the full designation of your organization (university, NGO, company etc.), not only the acronym."
                     />
-                    <b-input-group class="input-group-merge">
+                    <validation-provider
+                        #default="{ errors }"
+                        name="Organization"
+                        vid="organization"
+                        rules="required"
+                    >
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
+                      >
                       <b-form-input
                         id="vi-organization"
                         v-model="organization"
@@ -335,6 +426,7 @@
                         placeholder="Entry your organization"
                       />
                     </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
                 <!-- City/Country of your Organization * -->
@@ -343,7 +435,16 @@
                     label="City/Country of your Organization *"
                     label-for="vi-city-of-organization"
                   >
-                    <b-input-group class="input-group-merge">
+                    <validation-provider
+                        #default="{ errors }"
+                        name="City/Country of your Organization"
+                        vid="city-of-organization"
+                        rules="required"
+                    >
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
+                      >
                       <b-form-select
                         v-model="countryOrState"
                       >
@@ -356,7 +457,7 @@
                           <b-form-select-option
                             v-if="!country.states.length"
                             :key="country.name + country.iso3"
-                            :value="country"
+                            :value="country.name"
                           >
                             {{ country.name }}
                           </b-form-select-option>
@@ -364,7 +465,7 @@
                           <b-form-select-option
                             v-for="state in country.states"
                             :key="state.name + state.iso3"
-                            :value="state"
+                            :value="state.name"
                           >
                             {{ state.name }}
                           </b-form-select-option>
@@ -372,15 +473,25 @@
                         </b-form-select-option-group>
                       </b-form-select>
                     </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
                 <!-- Your Position -->
                 <b-col cols="12">
                   <b-form-group
-                    label="Your Position"
+                    label="Your Position *"
                     label-for="vi-job-position"
                   >
-                    <b-input-group class="input-group-merge">
+                    <validation-provider
+                        #default="{ errors }"
+                        name="Your Position"
+                        vid="job-position"
+                        rules="required"
+                    >
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
+                      >
                       <b-form-input
                         id="vi-job-position"
                         v-model="jobPosition"
@@ -388,18 +499,28 @@
                         placeholder="Entry your position"
                       />
                     </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
                 <!-- Timezone -->
                 <b-col cols="12">
                   <b-form-group
-                    label="Timezone"
+                    label="Timezone *"
                     label-for="vi-timezone"
                   >
                     <label-sub-title
                       title="Please provide your time zone. You can check via this link https://www.worldtimeserver.com/"
                     />
-                    <b-input-group class="input-group-merge">
+                    <validation-provider
+                        #default="{ errors }"
+                        name="Timezone"
+                        vid="timezone"
+                        rules="required"
+                    >
+                      <b-input-group
+                          class="input-group-merge"
+                          :class="errors.length > 0 ? 'is-invalid':null"
+                      >
                       <b-form-input
                         id="vi-timezone"
                         v-model="timezone"
@@ -407,6 +528,7 @@
                         placeholder="Entry your timezone"
                       />
                     </b-input-group>
+                    </validation-provider>
                   </b-form-group>
                 </b-col>
               </b-row>
@@ -546,7 +668,7 @@ import {
 } from 'bootstrap-vue'
 import { required, email } from '@validations'
 import { togglePasswordVisibility } from '@core/mixins/ui/forms'
-import ToastificationContent from '@core/components/toastification/ToastificationContent'
+import ToastificationContent from '@core/components/toastification/ToastificationContent.vue'
 import store from '@/store/index'
 import useJwt from '@/auth/jwt/useJwt'
 import LabelSubTitle from '@/components/LabelSubTitle.vue'
@@ -583,7 +705,7 @@ export default {
   mixins: [togglePasswordVisibility],
   data() {
     return {
-      appLoading:false,
+      appLoading: false,
       dateTimeShowed: false,
       presentationDateTimeClass: '',
       // presentation
@@ -601,7 +723,7 @@ export default {
       countryOrState: '',
       organization: '',
       phoneNumber: '',
-      timezone: '',
+      timezone: 'Asia/Phnom_Penh',
       //
       status: true,
       isForum: true,
@@ -658,6 +780,7 @@ export default {
           short_name: this.shortOfTitleAndName,
           phone: this.phoneNumber,
           city_or_country: this.countryOrState,
+          organization: this.organization,
           job_position: this.jobPosition,
           timezone: this.timezone,
 
@@ -698,6 +821,9 @@ export default {
                 this.$router.push('/')
               })
               .catch(error => {
+                if (this.appLoading) {
+                  this.appLoading.style.display = 'none'
+                }
                 this.$refs.registerForm.setErrors(error.response.data.error)
               })
           }

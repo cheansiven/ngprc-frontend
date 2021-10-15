@@ -341,6 +341,9 @@ export default {
             })
             .catch(error => {
               console.error(error)
+              if (this.appLoading) {
+                this.appLoading.style.display = 'none'
+              }
               if (error.response && error.response.data) {
                 this.$refs.loginForm.setErrors(error.response.data.error)
               }

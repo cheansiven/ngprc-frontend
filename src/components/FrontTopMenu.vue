@@ -179,7 +179,7 @@ import {
   BNav, BNavItem, BNavItemDropdown, BDropdownItem, BImg, BAvatar, BDropdownDivider,
 } from 'bootstrap-vue'
 import { avatarText } from '@core/utils/filter'
-import PresentationHandler from '@/views/admin/presentation/presentation-handler/PresentationHandler.vue'
+import PresentationAddModal from '@/views/admin/presentation/presentation-handler/PresentationAddModal.vue'
 import useJwt from '@/auth/jwt/useJwt'
 import { initialAbility } from '@/libs/acl/config'
 
@@ -192,7 +192,7 @@ export default {
     BDropdownDivider,
     BDropdownItem,
     BAvatar,
-    PresentationHandler,
+    PresentationAddModal,
   },
   props: {
     isStatic: {
