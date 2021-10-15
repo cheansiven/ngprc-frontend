@@ -155,7 +155,7 @@
         </b-card-code>
       </b-col>
     </b-row>
-    <presentation-handler
+    <presentation-add-modal
       :visible="isPresentationAddModalSidebarActive"
       :presentation="loadedPresentation"
       :loading="saving"
