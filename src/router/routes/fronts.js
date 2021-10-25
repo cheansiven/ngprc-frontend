@@ -89,4 +89,13 @@ export default [
       resource: 'Auth',
     },
   },
+  {
+    path: '/user-activation',
+    name: 'user-activation',
+    component: () => import('@/views/front/Activation.vue'),
+    meta: {
+      layout: 'full',
+      resource: 'Auth',
+    },
+  },
 ]

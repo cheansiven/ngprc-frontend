@@ -144,6 +144,15 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
   }
 }
 
+.float-top-right-button{
+  position: absolute;
+  top: 0;
+  right: 15px;
+  color: green;
+  font-size: 22px;
+  cursor: pointer;
+}
+
 .nav-item.logged-user>a.nav-link {
   padding: 5px !important;
 }
@@ -183,5 +192,19 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
       height: 167px;
       overflow: scroll;
     }
+  }
+}
+
+.activation-box {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #d4d0d0;
+  border-radius: 10px;
+}
+
+.user-activate {
+  .user-bio .ql-editor {
+    width: 100%;
+    height: 215px !important;
   }
 }

@@ -148,12 +148,12 @@
                 <!-- date time -->
                 <b-col cols="12">
                   <b-form-group
-                    label="Time"
+                    label="Preferred Time"
                     label-for="vi-event-time"
                   >
                     <validation-provider
                         #default="{ errors }"
-                        name="Time"
+                        name="Preferred Time"
                         vid="event-time"
                         rules="required"
                     >
@@ -165,8 +165,15 @@
                           id="vi-event-time"
                           v-model="presentationDateTime"
                           class="form-control"
-                          :config="{ enableTime: true,dateFormat: 'Y-m-d H:i K'}"
+                          :config="{ enableTime: true,dateFormat: 'd/m/Y H:i K'}"
                       />
+<!--                        <b-form-input-->
+<!--                            id="vi-event-time"-->
+<!--                            v-model="presentationDateTime"-->
+<!--                            name="event-time"-->
+<!--                            :state="errors.length > 0 ? false:null"-->
+<!--                            placeholder="Enter your Date time"-->
+<!--                        />-->
                     </b-input-group>
                     </validation-provider>
                   </b-form-group>
@@ -645,6 +652,7 @@ import { ValidationProvider, ValidationObserver } from 'vee-validate'
 import SiteLogo from '@core/layouts/components/Logo.vue'
 import { quillEditor } from 'vue-quill-editor'
 import flatPickr from 'vue-flatpickr-component'
+import moment from 'moment'
 import {
   BRow,
   BCol,
@@ -757,6 +765,7 @@ export default {
   created() {
     this.getPresentationFormats()
     this.getAllCountries()
+    this.presentationDateTime = moment().format('DD/MM/YYYY HH:mm A')
     this.appLoading = document.getElementById('loading-bg')
   },
   methods: {

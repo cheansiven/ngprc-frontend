@@ -65,7 +65,7 @@
           </div>
           <b-avatar
               size="40"
-              :src="userData.avatar"
+              :src="'/uploaded/img/users/'+userData.avatar"
               variant="light-primary"
               badge
               class="badge-minimal"
@@ -167,10 +167,6 @@
         <!------------>
       </b-nav-item-dropdown>
     </b-nav>
-    <presentation-handler
-        :visible="isPresentationModalActive"
-        @update:modal="updateModalState"
-    />
   </nav>
 </template>
 
@@ -179,7 +175,6 @@ import {
   BNav, BNavItem, BNavItemDropdown, BDropdownItem, BImg, BAvatar, BDropdownDivider,
 } from 'bootstrap-vue'
 import { avatarText } from '@core/utils/filter'
-import PresentationAddModal from '@/views/admin/presentation/presentation-handler/PresentationAddModal.vue'
 import useJwt from '@/auth/jwt/useJwt'
 import { initialAbility } from '@/libs/acl/config'
 
@@ -192,10 +187,10 @@ export default {
     BDropdownDivider,
     BDropdownItem,
     BAvatar,
-    PresentationAddModal,
   },
   props: {
     isStatic: {
+      type: Boolean,
       default: false,
     },
   },

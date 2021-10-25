@@ -110,6 +110,7 @@
                       "target": "_blank"
                     }
                   },
+                  "hideDesktop": false,
                   "_meta": {
                     "htmlID": "u_content_image_4",
                     "htmlClassNames": "u_content_image"
@@ -155,6 +156,7 @@
                     "linkUnderline": true,
                     "linkHoverUnderline": true
                   },
+                  "hideDesktop": false,
                   "_meta": {
                     "htmlID": "u_content_heading_1",
                     "htmlClassNames": "u_content_heading"
@@ -193,6 +195,7 @@
             "cover": false
           },
           "padding": "0px",
+          "hideDesktop": false,
           "_meta": {
             "htmlID": "u_row_14",
             "htmlClassNames": "u_row"
@@ -224,6 +227,7 @@
                     "linkUnderline": true,
                     "linkHoverUnderline": true
                   },
+                  "hideDesktop": false,
                   "_meta": {
                     "htmlID": "u_content_text_13",
                     "htmlClassNames": "u_content_text"
@@ -233,7 +237,7 @@
                   "duplicatable": true,
                   "deletable": true,
                   "hideable": true,
-                  "text": "<p style=\"font-size: 14px; line-height: 170%;\">Lorem ipsum,</p>\n<p style=\"font-size: 14px; line-height: 170%;\">&nbsp;</p>\n<p style=\"font-size: 14px; line-height: 170%;\">&nbsp; &nbsp; &nbsp;Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n<p style=\"font-size: 14px; line-height: 170%;\">&nbsp; &nbsp; &nbsp;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>\n<p style=\"font-size: 14px; line-height: 170%;\">&nbsp;</p>\n<p style=\"font-size: 14px; line-height: 170%; text-align: right;\">CICME - Cambodia</p>"
+                  "text": "<p style=\"font-size: 14px; line-height: 170%;\">Lorem ipsum,</p>\n<p style=\"font-size: 14px; line-height: 170%;\">&nbsp;</p>\n<p style=\"font-size: 14px; line-height: 170%;\">&nbsp; &nbsp; &nbsp;Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\n<p style=\"font-size: 14px; line-height: 170%;\">&nbsp; &nbsp; &nbsp;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto.</p>\n<p style=\"font-size: 14px; line-height: 170%;\">{required_form_link}</p>\n<p style=\"font-size: 14px; line-height: 170%; text-align: right;\">CICME - Cambodia</p>"
                 }
               },
               {
@@ -507,11 +511,11 @@
       "preheaderText": "",
       "linkStyle": {
         "body": true,
-        "inherit": false,
         "linkColor": "#000000",
-        "linkUnderline": false,
         "linkHoverColor": "#0000ee",
-        "linkHoverUnderline": true
+        "linkUnderline": false,
+        "linkHoverUnderline": true,
+        "inherit": false
       },
       "_meta": {
         "htmlID": "u_body",

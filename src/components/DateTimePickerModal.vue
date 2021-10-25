@@ -33,7 +33,6 @@
             class="margin-bottom-10"
         >
           <b-button
-              v-ripple.400="'rgba(113, 102, 240, 0.15)'"
               variant="outline-primary"
               @click="onClose"
           >
@@ -46,7 +45,6 @@
 </template>
 
 <script>
-import moment from 'moment'
 import {
   BRow, BCol, BModal, BFormTimepicker, BCalendar, BButton,
 } from 'bootstrap-vue'
@@ -82,7 +80,7 @@ export default {
       if (this.selectedDate !== '' || this.selectedTime !== '') {
         selectedDateTime = `${this.selectedDate} ${this.selectedTime}`.trim()
       }
-      this.$emit('update:modal', false, selectedDateTime)
+      this.$emit('modal:update', false, selectedDateTime)
     },
   },
 }

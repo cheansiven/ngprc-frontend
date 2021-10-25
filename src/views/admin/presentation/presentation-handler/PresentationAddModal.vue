@@ -15,7 +15,7 @@
           <!-- date time -->
           <b-col cols="12">
             <b-form-group
-              label="Time"
+              label="Preferred Time"
               label-for="vi-event-time"
             >
               <b-input-group class="input-group-merge">
@@ -23,8 +23,13 @@
                   id="vi-event-time"
                   v-model="presentationDateTime"
                   class="form-control"
-                  :config="{ enableTime: true,dateFormat: 'Y-m-d H:i K'}"
+                  :config="{ enableTime: true,dateFormat: 'd/m/Y H:i K'}"
                 />
+<!--                <b-form-input-->
+<!--                    id="vi-event-time"-->
+<!--                    v-model="presentationDateTime"-->
+<!--                    placeholder="Enter your Date time"-->
+<!--                />-->
               </b-input-group>
             </b-form-group>
           </b-col>
@@ -137,9 +142,10 @@
               />
               <b-input-group class="input-group-merge">
                 <b-form-select
-                  v-model="active"
+                  v-model="status"
                 >
                   <b-form-select-option
+                      v-bind:key="option.key"
                     v-for="option in status_options"
                     :value="option.key"
                   >
@@ -169,8 +175,7 @@
           </b-col>
         </b-row>
         <div
-          v-if="$props.loading"
-          id="presentation-spinner"
+          v-if="this.showLoading"
           class="spinner-in-modal"
         >
           <b-spinner />
@@ -181,7 +186,7 @@
 </template>
 
 <script>
-
+import moment from 'moment'
 import Ripple from 'vue-ripple-directive'
 import { required, email, url } from '@validations'
 import {
@@ -204,6 +209,7 @@ import { quillEditor } from 'vue-quill-editor'
 import flatPickr from 'vue-flatpickr-component'
 import LabelSubTitle from '@/components/LabelSubTitle.vue'
 import useJwt from '@/auth/jwt/useJwt'
+
 
 export default {
   components: {
@@ -233,8 +239,9 @@ export default {
       type: Boolean,
       required: true,
     },
-    presentation: {
-      type: Object,
+    presentation_id: {
+      type: Number,
+      default: 0,
     },
     loading: {
       type: Boolean,
@@ -243,6 +250,7 @@ export default {
   },
   data() {
     return {
+      showLoading: false,
       spinner: false,
       status_options: [
         { key: 0, name: 'Inactive' },
@@ -259,6 +267,7 @@ export default {
       keywords: [],
       abstract: '',
       emailForProgram: '',
+      status: '',
       // /
       required,
       email,
@@ -266,47 +275,29 @@ export default {
     }
   },
   watch: {
-    presentation(nVal, oVal) {
+    presentation_id(nVal, oVal) {
       if (nVal !== oVal) {
-        if (nVal.id) {
-          this.presentationId = nVal.id
-          this.presentationTitle = nVal.title
-          this.presentationFormat = nVal.format
-          this.emailForProgram = nVal.event_email
-          this.keywords = nVal.keywords.split(',')
-          this.abstract = nVal.abstract
-          this.status = nVal.status ?? '1'
-          this.presentationDateTime = nVal.event_date ?? ''
-        } else {
-          this.presentationId = false
-          this.presentationTitle = ''
-          this.presentationFormat = ''
-          this.emailForProgram = ''
-          this.keywords = []
-          this.abstract = ''
-          this.status = '0'
-          this.presentationDateTime = ''
-        }
-      }
-    },
-    loading(nVal, oVal) {
-      if (nVal !== oVal) {
-        if (this.spinner) {
-          if (nVal) {
-            this.spinner.style.display = 'block'
-          } else {
-            this.spinner.style.display = 'non'
-          }
-        }
+        console.log('nVal ', nVal)
+        this.getPresentation(nVal)
       }
     },
   },
   created() {
     this.getPresentationFormats()
     this.getAllCountries()
-    this.spinner = document.getElementById('presentation-spinner')
+    this.presentationDateTime = moment().format('DD/MM/YYYY HH:mm A')
   },
   methods: {
+    resetForm() {
+      this.presentationId = false
+      this.presentationTitle = ''
+      this.presentationFormat = ''
+      this.emailForProgram = ''
+      this.keywords = []
+      this.abstract = ''
+      this.status = '0'
+      this.presentationDateTime = ''
+    },
     async getPresentationFormats() {
       const cjson = localStorage.getItem('presentationFormats')
       if (!cjson || cjson === null || cjson === '') {
@@ -334,6 +325,31 @@ export default {
         this.countries = JSON.parse(cjson)
       }
     },
+    getPresentation(id) {
+      if(id <= 0) return
+      this.resetForm()
+      this.showLoading = true
+      useJwt.axiosIns.get(`/presentation/${id}`)
+        .then(res => {
+          if (res.status === 200) {
+            if (!res.data.error) {
+              if (res.data) {
+                this.presentationId = res.data.id
+                this.presentationTitle = res.data.title
+                this.presentationFormat = res.data.format
+                this.emailForProgram = res.data.event_email
+                this.keywords = res.data.keywords.split(',')
+                this.abstract = res.data.abstract
+                this.status = res.data.status ?? '1'
+                this.presentationDateTime = res.data.event_date ?? ''
+              }
+            }
+          }
+          this.showLoading = false
+        }).catch(() => {
+          this.showLoading = false
+        })
+    },
     async onSubmit() {
       const data = {
         id: this.presentationId,
@@ -343,9 +359,21 @@ export default {
         keywords: this.keywords,
         abstract: this.abstract,
         format: this.presentationFormat,
-        active: this.status,
+        status: this.status,
       }
-      this.$emit('update:modal', false, data)
+
+      this.showLoading = true
+      useJwt.axiosIns.post('presentation', data)
+        .then(response => {
+          if (response.status === 200) {
+            this.resetForm()
+            this.$emit('update:modal', false, response.data || {})
+          }
+          this.showLoading = false
+        })
+        .catch(() => {
+          this.showLoading = false
+        })
     },
   },
   // eslint-disable-next-line no-unused-vars
